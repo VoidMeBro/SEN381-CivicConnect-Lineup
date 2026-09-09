@@ -1,0 +1,14 @@
+# Local credentials and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Office temporary files
+~$*
+*.tmp
+
+# OS metadata
+.DS_Store
+Thumbs.db
