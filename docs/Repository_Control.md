@@ -4,9 +4,9 @@ Recorded 9 September 2026. Repository owner and Member 4 coordinator account: Vo
 
 ## Document version
 
-The user supplied `CivicConnect_Milestone1_With_Member4.docx` as the current integrated PED. It is stored unchanged under `docs/PED/`. The document identifies its current version as 0.9, draft for team review, with planned baseline v1.0. This repository does not imply completion of blank sign-off fields or pending verification.
+The supplied `CivicConnect_Milestone1_With_Member4.docx` was initially stored unchanged as v0.9. Following the user's request to correct the completeness review findings, `docs/PED/` now contains v0.10. The original remains in commit a10c26a. The planned baseline is v1.0; this repository does not imply completion of blank sign-off fields or pending verification.
 
-The DOCX is the authoritative authored document. This record documents repository work and does not replace or silently revise the PED's decisions. Changes to the document must be reviewed explicitly.
+The DOCX is the controlled review candidate. Version 0.10 corrects mandatory capability coverage, makes basic reporting mandatory, adds proposed measurable targets, extends traceability and updates four-member governance and AI records. Proposed decisions and assumptions require explicit team/client validation. Changes are presented in PR #7 for review.
 
 ## Change and review controls
 
@@ -36,4 +36,6 @@ Codex assisted repository inspection, task-branch creation, initial task creatio
 
 ## Validation
 
-The committed DOCX is checked byte-for-byte against the supplied file. Markdown links and the PR template are checked locally. There are no application tests to run for this document-only change. Actual team approvals and gate decisions remain outstanding.
+The initial v0.9 upload was checked byte-for-byte against the supplied file. The corrected v0.10 is intentionally different: structural checks verify 13 functional requirements, 7 non-functional requirements, unique IDs, complete RTM coverage, proposed review statuses and four sign-off rows. Markdown consistency and git diff checks are performed locally. The runtime lacks LibreOffice, so page layout has not been visually certified and must be checked in Word before submission. There are no application tests for this document-only change. Actual team approvals, human AI verification, lecturer evidence for the four-member arrangement and gate decisions remain outstanding.
+
+Codex's content review and correction are disclosed in PED entry AI-003. New numerical targets and lifecycle rules are proposals, not fabricated stakeholder approvals. No additional GitHub issues were created for this correction.
