@@ -4,9 +4,9 @@ SEN381 team project for a controlled citizen service-request platform.
 
 ## Current engineering document
 
-[Milestone 1 PED including Member 4](docs/PED/CivicConnect_Milestone1_With_Member4.docx)
+[Milestone 1 PED including Member 4](docs/PED/CivicConnect_Milestone1_v0.11.docx)
 
-The document is the corrected version 0.10 team-review candidate. It adds missing minimum business capabilities, measurable proposed acceptance targets, complete RTM coverage and updated governance evidence. The original v0.9 remains in git history. The planned v1.0 baseline requires genuine team review, validation of proposed targets and sign-off. The decision log, AI usage register and review records are contained in the document. Page layout still requires a visual check in Word because automated rendering was unavailable.
+The document is the corrected version 0.11 team-review candidate. It adds missing minimum business capabilities, measurable proposed acceptance targets, complete RTM coverage and updated governance evidence. The original v0.9 remains in git history. The planned v1.0 baseline requires genuine team review, validation of proposed targets and sign-off. The decision log, AI usage register and review records are contained in the document. Page layout still requires a visual check in Word because automated rendering was unavailable.
 
 ## Repository workflow
 

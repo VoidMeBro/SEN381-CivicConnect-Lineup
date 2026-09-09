@@ -39,3 +39,7 @@ Codex assisted repository inspection, task-branch creation, initial task creatio
 The initial v0.9 upload was checked byte-for-byte against the supplied file. The corrected v0.10 is intentionally different: structural checks verify 13 functional requirements, 7 non-functional requirements, unique IDs, complete RTM coverage, proposed review statuses and four sign-off rows. Markdown consistency and git diff checks are performed locally. The runtime lacks LibreOffice, so page layout has not been visually certified and must be checked in Word before submission. There are no application tests for this document-only change. Actual team approvals, human AI verification, lecturer evidence for the four-member arrangement and gate decisions remain outstanding.
 
 Codex's content review and correction are disclosed in PED entry AI-003. New numerical targets and lifecycle rules are proposals, not fabricated stakeholder approvals. No additional GitHub issues were created for this correction.
+
+## Named team revision v0.11
+
+The current candidate is docs/PED/CivicConnect_Milestone1_v0.11.docx. It adds the four team-supplied names, three supplied student numbers and all 39 responsibility items. Jacobus Petrus Geldenhuys's student number remains unspecified. Named ownership and reviewer fields do not imply approvals. The previous file remains available; v0.11 is the current review candidate.
