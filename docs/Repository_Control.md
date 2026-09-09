@@ -12,7 +12,19 @@ The DOCX is the authoritative authored document. This record documents repositor
 
 Substantive changes use a task branch and PR into main. Two real team members other than the author must approve the current change. Reviewers check source alignment, requirements/traceability impact, correctness, security and AI verification. Authors address findings and request re-review after material changes. Commit dates and review history must reflect real work.
 
-Required main settings: PR required, two approving reviews, stale approvals dismissed, conversations resolved, administrator enforcement, force pushes disabled and deletion disabled. Configuration was attempted but has not yet been verified saved; main was still unprotected at the latest API check. Do not present this policy as active enforcement until settings are saved and independently read back.
+Main protection was saved after the repository owner completed GitHub access verification on 9 September 2026. The saved [rule 82957015](https://github.com/VoidMeBro/SEN381-CivicConnect-Lineup/settings/branch_protection_rules/82957015) was reopened and checked: it matches `main` and applies to one branch.
+
+| Saved control | Verified value |
+|---|---|
+| Require a pull request before merging | Enabled |
+| Required approving reviews | 2 |
+| Dismiss stale approvals after new commits | Enabled |
+| Require conversation resolution | Enabled |
+| Do not allow bypassing settings | Enabled, including administrators |
+| Allow force pushes | Disabled |
+| Allow deletions | Disabled |
+
+No nonexistent CI status check or deployment requirement is configured for this documentation-only M1 stage. Saved configuration establishes enforcement; it does not establish that peer review has occurred. [PR #7](https://github.com/VoidMeBro/SEN381-CivicConnect-Lineup/pull/7) contains the supplied PED and repository controls and awaits two genuine non-author approvals.
 
 ## Baseline procedure
 
