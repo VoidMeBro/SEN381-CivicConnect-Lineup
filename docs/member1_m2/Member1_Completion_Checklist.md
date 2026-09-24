@@ -12,7 +12,7 @@ I approve this Member 1 contribution.
 | 6 | Evidence-based statuses | Complete | Initial path is In Development; unrelated features remain Not Yet Implemented. Approval is separate. |
 | 7 | End-to-end product trace | Complete for initial service path | FR-13/05/08 -> ASR -> architecture -> data -> interface -> technology/ADR -> actual service -> 20 product tests and executed demo. |
 | 8 | PED consistency | Complete for available member evidence | M1/A2 contributions reconciled to ADR-M2-01/02/03/04, actual source and RTM. Later M2 submissions remain normal team integration work. |
-| 9 | Development and GitHub | Implemented; publication tracked in Governance.md | Real branch/commits; 35 tests; actual issue/PR links recorded when published. Independent reviews are performed by the reviewers. |
+| 9 | Development and GitHub | Complete; published for review | Real branch/commits; 35 tests; issue #8 and draft PR #9 linked in Governance.md. Independent reviews are performed by the reviewers. |
 | 10 | Presentation | Preparation complete | Timed script, live commands, source navigation and defence answers. Member 1 delivers the assessed presentation personally. |
 
 The initial service trace is executed. The complete web application, other members' final submissions, independent PR approvals and the assessed presentation are separate outcomes; none is represented as completed by these tests.
