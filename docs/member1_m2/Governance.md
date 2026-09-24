@@ -1,9 +1,11 @@
-# Development evidence
+# My development record
 
-Local task: M1-M2-TRACE. Branch: `feat/member1-m2-traceability` in the existing CivicConnect repository. Starting revision: `9f009b0`, the inspected M1 documentation checkout. Work is AI-assisted and must be reviewed by Member 1 before claiming student understanding or acceptance.
+Task: M1-M2-TRACE. Branch: feat/member1-m2-traceability. Repository: VoidMeBro/SEN381-CivicConnect-Lineup.
 
-The pack is committed under the explicit Codex author identity. Use `git log -1 --oneline feat/member1-m2-traceability` to retrieve the actual local commit. No historic student commits, meetings, issues, PRs or independent reviews are invented.
+Commits: f2fabb0 adds the Member 1 PED and initial validator; 847145c reconciles approvals, records A2 decisions and strengthens exact change evidence. Codex assistance is disclosed in the PED and retained in commit authorship.
 
-Remote issue/PR creation, push and two genuine independent approvals are outstanding. `PR_Draft.md` contains the approved task and review description. Confirm the correct remote base and integrate any later team work before opening the PR. The source M1 sign-off is approved; it does not imply this new M2 change is approved.
+Verification: Python 3.12.14; 15 tests passed; all 20 requirements validated; no baseline wording/source/priority/criteria differences; evidence hashes matched. The final document was rendered in Word and visually checked.
 
-Verification ran on 24 September 2026 using bundled Python 3.12.14: 11 tests passed, then the actual 20-record pack passed the validator. The source DOCX hash and all requirement wordings were preserved. Word exported the continuing PED for visual layout inspection after the packaged LibreOffice renderer was unavailable. QA PDFs and images are retained only in the workspace working directory.
+The remote still contains the open M1 PR #7, so a separate Member 1 M2 PR should compare this branch against docs/member4-project-control. This keeps the M2 changes distinct from M1. Retarget to main after M1 is merged. Two independent approvals are required before merging.
+
+Publication status: local work committed; public push requires explicit publication approval. PR_Draft.md contains the ready review text. No PR or independent review is claimed before it exists.
