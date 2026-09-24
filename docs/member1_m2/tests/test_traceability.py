@@ -5,7 +5,8 @@ import sys
 import tempfile
 import unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from traceability import validate, render
+from traceability import validate, render, changes_for, verify_manifest
+import hashlib
 
 class TraceabilityTests(unittest.TestCase):
     def setUp(self):
@@ -44,5 +45,35 @@ class TraceabilityTests(unittest.TestCase):
     def test_html_escapes_content(self):
         self.rows[0]['wording']='<script>alert(1)</script>'; self.check(); render(self.root)
         self.assertIn('&lt;script&gt;alert(1)&lt;/script&gt;', (self.root/'RTM.html').read_text(encoding='utf-8'))
+
+    def test_label_alone_cannot_authorise_change(self):
+        self.rows[0]['wording']='Changed'
+        self.rows[0]['references']=['CR-FAKE']
+        self.assertTrue(any('approved matching CR' in x for x in self.check()))
+
+    def test_exact_approved_change_record(self):
+        self.rows[0]['wording']='Changed'
+        self.rows[0]['references']=['CR-TEST']
+        (self.root/'approval.txt').write_text('TEST FIXTURE approval; not actual evidence')
+        changes=changes_for(self.root,self.rows)
+        record={'id':'CR-TEST','status':'Approved','requirements':[self.rows[0]['id']],
+                'changes':changes,'approval_evidence':'approval.txt'}
+        (self.root/'change_register.json').write_text(json.dumps([record]))
+        self.assertEqual(self.check(),[])
+        self.rows[0]['priority']='Could Have'
+        self.assertTrue(any('approved matching CR' in x for x in self.check()))
+
+    def test_diff_retains_old_and_new_values(self):
+        before=self.rows[0]['acceptance_criteria']
+        self.rows[0]['acceptance_criteria']='New criterion'
+        diff=changes_for(self.root,self.rows)
+        self.assertEqual(diff,[{'id':self.rows[0]['id'],'field':'acceptance_criteria','before':before,'after':'New criterion'}])
+
+    def test_manifest_detects_tampering(self):
+        (self.root/'proof.txt').write_bytes(b'original')
+        (self.root/'evidence_manifest.json').write_text(json.dumps([{'path':'proof.txt','sha256':hashlib.sha256(b'original').hexdigest()}]))
+        self.assertEqual(verify_manifest(self.root),[])
+        (self.root/'proof.txt').write_bytes(b'changed')
+        self.assertTrue(verify_manifest(self.root))
 
 if __name__=='__main__': unittest.main()

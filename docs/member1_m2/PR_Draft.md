@@ -1,8 +1,8 @@
 # Local task M1-M2-TRACE
 
-Owner: Member 1. Proposed branch: feat/member1-m2-traceability. Remote issue and PR not yet created.
+Owner: Member 1. Approved branch: feat/member1-m2-traceability. Remote issue and PR not yet created.
 
-## Proposed pull request
+## Approved pull request
 
 Title: Evolve CivicConnect PED and add requirement evidence validation
 

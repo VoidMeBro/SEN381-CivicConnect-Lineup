@@ -1,7 +1,11 @@
 test_broken_link (test_traceability.TraceabilityTests.test_broken_link) ... ok
+test_diff_retains_old_and_new_values (test_traceability.TraceabilityTests.test_diff_retains_old_and_new_values) ... ok
 test_duplicate_id (test_traceability.TraceabilityTests.test_duplicate_id) ... ok
 test_evidence_type (test_traceability.TraceabilityTests.test_evidence_type) ... ok
+test_exact_approved_change_record (test_traceability.TraceabilityTests.test_exact_approved_change_record) ... ok
 test_html_escapes_content (test_traceability.TraceabilityTests.test_html_escapes_content) ... ok
+test_label_alone_cannot_authorise_change (test_traceability.TraceabilityTests.test_label_alone_cannot_authorise_change) ... ok
+test_manifest_detects_tampering (test_traceability.TraceabilityTests.test_manifest_detects_tampering) ... ok
 test_missing_field (test_traceability.TraceabilityTests.test_missing_field) ... ok
 test_missing_requirement (test_traceability.TraceabilityTests.test_missing_requirement) ... ok
 test_path_escape (test_traceability.TraceabilityTests.test_path_escape) ... ok
@@ -11,7 +15,6 @@ test_unproven_implementation (test_traceability.TraceabilityTests.test_unproven_
 test_valid_preserved_baseline (test_traceability.TraceabilityTests.test_valid_preserved_baseline) ... ok
 
 ----------------------------------------------------------------------
-Ran 11 tests in 0.107s
+Ran 15 tests in 0.167s
 
 OK
-PASS: 20-record M1 coverage and RTM structure/evidence checks. Human approval and product acceptance are not certified.

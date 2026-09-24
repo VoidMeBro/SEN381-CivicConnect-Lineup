@@ -1,0 +1,52 @@
+[
+  {
+    "id": "CR-M2-01",
+    "subject": "Record accepted M1 and M2 control state",
+    "status": "Approved",
+    "requirements": [],
+    "changes": [],
+    "approval_evidence": "Approval_Record.md",
+    "scope_effect": "No requirement wording, source, priority or acceptance criteria changed.",
+    "owner": "Member 1; detailed product artefacts coordinated with Members 2 to 4"
+  },
+  {
+    "id": "CR-M2-02",
+    "subject": "Confirm four-member allocation",
+    "status": "Approved",
+    "requirements": [],
+    "changes": [],
+    "approval_evidence": "Approval_Record.md",
+    "scope_effect": "No requirement wording, source, priority or acceptance criteria changed.",
+    "owner": "Member 1; detailed product artefacts coordinated with Members 2 to 4"
+  },
+  {
+    "id": "CR-M2-03",
+    "subject": "Retain approved acceptance criteria without changes",
+    "status": "Approved",
+    "requirements": [],
+    "changes": [],
+    "approval_evidence": "Approval_Record.md",
+    "scope_effect": "No requirement wording, source, priority or acceptance criteria changed.",
+    "owner": "Member 1; detailed product artefacts coordinated with Members 2 to 4"
+  },
+  {
+    "id": "CR-M2-04",
+    "subject": "Integrate future architecture data technology and product evidence",
+    "status": "Planned",
+    "requirements": [],
+    "changes": [],
+    "approval_evidence": "",
+    "scope_effect": "No requirement wording, source, priority or acceptance criteria changed.",
+    "owner": "Member 1; detailed product artefacts coordinated with Members 2 to 4"
+  },
+  {
+    "id": "CR-M2-05",
+    "subject": "Reconcile supplied sign-off and strengthen Member 1 evidence validation",
+    "status": "Approved",
+    "requirements": [],
+    "changes": [],
+    "approval_evidence": "Approval_Record.md",
+    "scope_effect": "No requirement wording, source, priority or acceptance criteria changed.",
+    "owner": "Member 1; detailed product artefacts coordinated with Members 2 to 4"
+  }
+]

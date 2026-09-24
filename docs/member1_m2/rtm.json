@@ -6,10 +6,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "Valid unique registration creates one account and permits login. Duplicate identifiers are rejected. Invalid credentials create no authenticated session; valid credentials access the correct account.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Identity (proposed allocation)",
-    "data": "Account and unique identifier (proposed)",
-    "design": "Registration and authentication contract (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Identity",
+    "data": "Account and unique identifier",
+    "design": "Registration and authentication contract",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -17,8 +17,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-02",
@@ -27,10 +27,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "A valid title, description, location and active category are saved with requester identity and submission time; a unique reference is displayed. Missing or invalid required values create no request. See Section 19.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Request submission (proposed allocation)",
-    "data": "Request, category, requester and reference (proposed)",
-    "design": "Validated submission command (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Request submission",
+    "data": "Request, category, requester and reference",
+    "design": "Validated submission command",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -38,8 +38,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-03",
@@ -48,19 +48,20 @@
     "priority": "Must Have",
     "acceptance_criteria": "Given three own requests in different states, the requester can list and open all three with correct statuses. Another requester cannot access them through the UI or direct requests.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Citizen request history (proposed allocation)",
-    "data": "Requester-owned requests and events (proposed)",
-    "design": "Ownership-filtered history query (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Citizen request history",
+    "data": "Requester-owned requests and events",
+    "design": "ADR-M2-03 in ADRs.md; Ownership-filtered history query",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
     "references": [
       "CR-M2-01",
-      "R-10"
+      "R-10",
+      "ADR-M2-03"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-04",
@@ -69,10 +70,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "A staff member logged in with the Staff role sees only submissions relevant to their department; unauthorised submissions are not visible or accessible.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Staff work queue (proposed allocation)",
-    "data": "Department and assignment scope (proposed)",
-    "design": "Department-filtered query (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Staff work queue",
+    "data": "Department and assignment scope",
+    "design": "Department-filtered query",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -80,8 +81,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-05",
@@ -90,19 +91,21 @@
     "priority": "Must Have",
     "acceptance_criteria": "A permitted update saves status, remark, actor and timestamp. Refreshing within 5 seconds shows the saved state to the requester. Invalid transitions do not alter the record; see FR-13.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Lifecycle application service (proposed allocation)",
-    "data": "Atomic status and event update (proposed)",
-    "design": "Explicit lifecycle coordinator (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Lifecycle application service",
+    "data": "Atomic status and event update",
+    "design": "ADR-M2-01; ADR-M2-02 in ADRs.md; Explicit lifecycle coordinator",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
     "references": [
       "CR-M2-01",
-      "R-10"
+      "R-10",
+      "ADR-M2-01",
+      "ADR-M2-02"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-06",
@@ -111,10 +114,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "An administrator can create an account, edit permitted details, deactivate it and assign/change roles. Deactivation and role changes take effect by the next authenticated request. Non-administrators cannot invoke these operations.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Administration and identity (proposed allocation)",
-    "data": "Account activation and role membership (proposed)",
-    "design": "Recheck current access on every request (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Administration and identity",
+    "data": "Account activation and role membership",
+    "design": "Recheck current access on every request",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -122,8 +125,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-07",
@@ -132,10 +135,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "Missing or invalid title, description, location or category values are rejected with field-level errors. The same rules apply to direct submissions. No invalid record is saved; limits are defined in Section 19.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Submission validation (proposed allocation)",
-    "data": "Required field and category integrity (proposed)",
-    "design": "Shared boundary validation policy (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Submission validation",
+    "data": "Required field and category integrity",
+    "design": "Shared boundary validation policy",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -143,8 +146,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-08",
@@ -153,19 +156,20 @@
     "priority": "Must Have",
     "acceptance_criteria": "Within 60 seconds of a saved lifecycle event, authenticated request history/details show status, event time and a requester-visible explanation. Rejection and resolution require explanations. Email/push transport remains optional.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Citizen feedback view (proposed allocation)",
-    "data": "Committed lifecycle events (proposed)",
-    "design": "Read history after successful commit (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Citizen feedback view",
+    "data": "Committed lifecycle events",
+    "design": "ADR-M2-03 in ADRs.md; Read history after successful commit",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
     "references": [
       "CR-M2-01",
-      "R-10"
+      "R-10",
+      "ADR-M2-03"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-09",
@@ -174,10 +178,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "For a known dataset and selected submission-date range, counts and lists correctly identify open, overdue, resolved and closed requests by category/status, with assignee and age visible. Unauthorised access is denied. See Section 19 definitions.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Management reporting (proposed allocation)",
-    "data": "Date, category, assignee, status and due time (proposed)",
-    "design": "Authorised aggregate and detail query (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Management reporting",
+    "data": "Date, category, assignee, status and due time",
+    "design": "Authorised aggregate and detail query",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -185,8 +189,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-10",
@@ -195,10 +199,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "Unknown/inactive categories are rejected. Administrators maintain the list; retirement preserves historical request category labels.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Category administration (proposed allocation)",
-    "data": "Stable category ID and historical label (proposed)",
-    "design": "Retire categories without deleting history (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Category administration",
+    "data": "Stable category ID and historical label",
+    "design": "Retire categories without deleting history",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -206,8 +210,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-11",
@@ -216,10 +220,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "Reference/title search and category/status/assignee filters return matching authorised records. Submitted-date/due-date sorting is correct. Details show description, location, owner, times and lifecycle actions; inaccessible records remain hidden.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Staff request query (proposed allocation)",
-    "data": "Scoped searchable request fields (proposed)",
-    "design": "Scope before search filter and sort (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Staff request query",
+    "data": "Scoped searchable request fields",
+    "design": "Scope before search filter and sort",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -227,8 +231,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-12",
@@ -237,19 +241,20 @@
     "priority": "Must Have",
     "acceptance_criteria": "Staff can accept unassigned work or assign an eligible staff member. Assignee, actor and time are recorded. Ineligible/unauthorised assignments are rejected without changing ownership.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Assignment service (proposed allocation)",
-    "data": "Eligible staff, assignee and audit event (proposed)",
-    "design": "Validate eligibility before atomic assignment (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Assignment service",
+    "data": "Eligible staff, assignee and audit event",
+    "design": "ADR-M2-02 in ADRs.md; Validate eligibility before atomic assignment",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
     "references": [
       "CR-M2-01",
-      "R-10"
+      "R-10",
+      "ADR-M2-02"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "FR-13",
@@ -258,19 +263,21 @@
     "priority": "Must Have",
     "acceptance_criteria": "Permit Submitted to Accepted or Rejected; Accepted to In Progress; In Progress to Resolved; Resolved to Closed. Only authorised staff transition records. Acceptance requires an assignee and due time; rejection requires a reason and resolution requires a summary. Record actor/time/explanation. Reject all other transitions.",
     "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Lifecycle policy (proposed allocation)",
-    "data": "Status, assignee, due time and action history (proposed)",
-    "design": "Transition policy and transaction boundary (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Lifecycle policy",
+    "data": "Status, assignee, due time and action history",
+    "design": "ADR-M2-01; ADR-M2-02 in ADRs.md; Transition policy and transaction boundary",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
     "references": [
       "CR-M2-01",
-      "R-10"
+      "R-10",
+      "ADR-M2-01",
+      "ADR-M2-02"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "NFR-01",
@@ -279,10 +286,10 @@
     "priority": "Must Have",
     "acceptance_criteria": "With five first-time representative users and the same valid scenario, at least four submit successfully within 5 minutes without assistance. Record individual times, errors and feedback.",
     "asr": "Candidate driver: NFR-01",
-    "architecture": "Citizen submission UI (proposed allocation)",
-    "data": "Minimal required input (proposed)",
-    "design": "Accessible form and usability scenario (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Citizen submission UI",
+    "data": "Minimal required input",
+    "design": "Accessible form and usability scenario",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -290,8 +297,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "NFR-02",
@@ -300,19 +307,20 @@
     "priority": "Must Have",
     "acceptance_criteria": "A user with the Citizen role cannot view, via the UI or a direct request, another citizen's submissions or personal data; role-based access is enforced on every relevant request.",
     "asr": "Candidate driver: NFR-02",
-    "architecture": "Identity and authorisation across modules (proposed allocation)",
-    "data": "Ownership and role constraints (proposed)",
-    "design": "Deny unauthorised reads and writes (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Identity and authorisation across modules",
+    "data": "Ownership and role constraints",
+    "design": "ADR-M2-03 in ADRs.md; Deny unauthorised reads and writes",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
     "references": [
       "CR-M2-01",
-      "R-10"
+      "R-10",
+      "ADR-M2-03"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "NFR-03",
@@ -321,10 +329,10 @@
     "priority": "Should Have",
     "acceptance_criteria": "With 50 concurrent authenticated users and 10,000 requests, each user performs one lookup every 5 seconds for 10 minutes after warm-up. At least 95% complete within 3 seconds; fewer than 1% fail. Record hardware/network conditions.",
     "asr": "Candidate driver: NFR-03",
-    "architecture": "Request lookup and persistence (proposed allocation)",
-    "data": "Lookup indexes and representative dataset (proposed)",
-    "design": "Repeatable load scenario (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Request lookup and persistence",
+    "data": "Lookup indexes and representative dataset",
+    "design": "Repeatable load scenario",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -332,8 +340,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "NFR-04",
@@ -342,10 +350,10 @@
     "priority": "Should Have",
     "acceptance_criteria": "Over 20 weekdays, achieve at least 99% availability during 08:00–17:00 Africa/Johannesburg, measured by one-minute probes. Exclude only maintenance announced 24 hours ahead and report excluded minutes separately.",
     "asr": "Candidate driver: NFR-04",
-    "architecture": "Hosting and operations (proposed allocation)",
-    "data": "Durable storage and recovery (proposed)",
-    "design": "Availability measurement and restore procedure (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Hosting and operations",
+    "data": "Durable storage and recovery",
+    "design": "Availability measurement and restore procedure",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -353,8 +361,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "NFR-05",
@@ -363,10 +371,10 @@
     "priority": "Should Have",
     "acceptance_criteria": "All valid/invalid boundary cases for submission fields pass validation tests. An audit of 100 saved requests (or all if fewer) finds no missing mandatory or invalid-category values.",
     "asr": "Candidate driver: NFR-05",
-    "architecture": "Submission policy and persistence (proposed allocation)",
-    "data": "Mandatory fields and category references (proposed)",
-    "design": "Boundary validation and integrity checks (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Submission policy and persistence",
+    "data": "Mandatory fields and category references",
+    "design": "Boundary validation and integrity checks",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -374,8 +382,8 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   },
   {
     "id": "NFR-06",
@@ -384,9 +392,9 @@
     "priority": "Should Have",
     "acceptance_criteria": "Each baselined requirement can be traced, via the RTM, to its source, its acceptance criteria and any linked design or test evidence added in later milestones.",
     "asr": "ASR-T01 traceability",
-    "architecture": "Traceability control tool (proposed allocation)",
-    "data": "Versioned requirement and evidence records (proposed)",
-    "design": "Strict evidence validation and baseline comparison (proposed)",
+    "architecture": "Implemented local traceability control module",
+    "data": "Versioned JSON requirements, exact approved-change records and SHA-256 evidence manifest",
+    "design": "ADR-M2-04 in ADRs.md; validate, diff, verify-manifest and render command interfaces; ADR-M1-01",
     "technology": "ADR-M1-01 Python standard library tooling",
     "implementation": [
       "traceability.py"
@@ -400,10 +408,13 @@
       "ADR-M1-01",
       "CR-M2-01",
       "R-04",
-      "R-10"
+      "R-10",
+      "CR-M2-05",
+      "R-17",
+      "ADR-M2-04"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Initial automated tooling checks passed; full lifecycle traceability continues"
   },
   {
     "id": "NFR-07",
@@ -412,10 +423,10 @@
     "priority": "Could Have",
     "acceptance_criteria": "At M2 assess 50,000 stored requests and 100 concurrent users against the same lookup pattern and 3-second 95th-percentile target. Record capacity assumptions and bottlenecks; load-test at M3. Resource/configuration increases are permitted with cost recorded.",
     "asr": "Candidate driver: NFR-07",
-    "architecture": "Architecture and persistence capacity (proposed allocation)",
-    "data": "50000 requests and query access patterns (proposed)",
-    "design": "Capacity assessment before load testing (proposed)",
-    "technology": "Planned - Member 4 stack ADR required",
+    "architecture": "Architecture and persistence capacity",
+    "data": "50000 requests and query access patterns",
+    "design": "Capacity assessment before load testing",
+    "technology": "Member 4 stack record; see consolidated handover",
     "implementation": [],
     "verification": [],
     "status": "Not Yet Implemented",
@@ -423,7 +434,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "M1 v0.11 team sign-off confirmed by user on 2026-09-24; M2 allocations/decisions pending",
-    "acceptance_status": "Not yet accepted"
+    "approval": "Approved by me for the Member 1 M2 baseline",
+    "acceptance_status": "Product acceptance not demonstrated"
   }
 ]

@@ -1,17 +1,25 @@
-# Member 1 presentation and defence
+# My Member 1 M2 presentation
 
-1. Open the PED control table and Section 26. Explain that v2.0 evolves the same PED and preserves the supplied v0.11. State that the user confirms team sign-off of v0.11; do not invent a v1.0 version.
-2. Open Sections 27 and 28. Show one concrete change issue: the documented confirmation of four members and v0.11 sign-off. Explain why proposed acceptance targets remain unchanged.
-3. Open RTM.html and search FR-13. Show source, exact criteria, proposed responsibility and explicitly absent implementation evidence. Contrast with NFR-06, which has real tooling evidence but still lacks acceptance.
-4. Run `python traceability.py validate` then `python -m unittest discover -s tests -v`. Open the saved verification log. Show that a structural check is not human sign-off.
-5. Trace NFR-06 through ADR-M1-01 and the code/tests. Then show the planned citizen lifecycle path in Section 33 and identify the missing Member 2/3/4 artefacts candidly.
-6. Close with the precise baseline gate: actual M2 human reviews, product evidence, exact revision and two independent approvals.
+## Five minute route
 
-## Likely defence questions
+0:00–0:45: Our PED continues the approved M1 baseline. I preserved the original requirements and sign-off and evolved the same document to v2.0.1. Open document control and version history.
 
-- Why JSON as well as Word? Stable machine-readable records permit repeatable integrity checks; the PED explains reasoning. Both must be updated in the same reviewed change.
-- Does a file existing prove implementation? No. The tool rejects some invalid claims, but a human must inspect whether the artefact actually meets the criterion.
-- Why not mark all requirements Approved? M1 is team-approved per user confirmation; approval is separate from implementation, and new M2 decisions still require review.
-- Why no Assignment 2 RTM column? Research informs ADRs; the RTM traces engineered requirements.
-- Is the end-to-end application path complete? No. A tooling trace exists; product-path artefacts from Members 2 to 4 are still required.
-- What if a target changes? Preserve old wording, assess impact, obtain an approved CR, revise RTM/PED/tests together and retain the earlier baseline.
+0:45–1:30: I reviewed scope, acceptance, constraints, assumptions and all seven forward considerations. Show CR-M2-05: control and tooling changed; requirement wording did not. Explain that future baseline edits need exact approved old/new values.
+
+1:30–2:30: Open RTM.html, search FR-13, and show source, criteria, lifecycle responsibility, atomic status/history decision and ADR-M2-01/02. Search FR-08 for approved in-app feedback and ADR-M2-03. Explain the final incoming implementation links from the other members.
+
+2:30–3:45: Search NFR-06. Run validate, diff and verify-manifest, then show evidence/verification.txt and the tests. Trace source -> ASR-T01 -> traceability module -> JSON records -> command interface -> ADR-M1-01/ADR-M2-04 -> code -> actual test output.
+
+3:45–4:30: Show the product acceptance path in Section 33: staff accepts Submitted work with assignee and due time; the committed history becomes visible to its requester. Explain the coordinator, transaction and ownership boundaries. Member_Handoff.md lists the final incoming artefacts.
+
+4:30–5:00: Open the branch/PR in Governance.md and show the ten-task checklist. Summarise what my code verifies and what the application tests must prove.
+
+## Defence answers
+
+- Why Mediator? Mandatory authorisation, validation and history need an explicit coordinator. Observer adds registration and ordering risks for mandatory steps.
+- Why atomic history? A successful status change must not lose its accountability record or expose feedback for a failed transaction.
+- Why in-process calls? Our internal workflow needs clear responsibilities, not an invented network boundary.
+- Why versioned JSON? It enables exact baseline comparison and repeatable checks for our 20 requirements without operating another service.
+- Why separate approval and implementation? We can approve what must be built before the corresponding feature and tests exist.
+- Does a hash prove correctness? It identifies the checked bytes. Tests and reviews establish what those bytes do.
+- What happens when requirements change? Preserve old values, approve a matching CR, update PED/RTM/ADR/tests together, and review the exact commit.
