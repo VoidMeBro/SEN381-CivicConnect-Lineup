@@ -1,8 +1,8 @@
 # Member 1 M2 delivery
 
-I approve this Member 1 M2 document and the decisions recorded in it. Our four-member allocation and M1 sign-off are confirmed. The current PED is v2.0.2; the approved v2.0 source is preserved unchanged in baselines.
+The M2 PED and the decisions recorded in it are approved. The four-member allocation and M1 sign-off are confirmed. The current PED is v2.0.2; the approved v2.0 source is preserved unchanged in baselines.
 
-Open CivicConnect_PED_v2.0_Member1.docx for the PED, RTM.html for live requirement lookup, Member1_Completion_Checklist.md for the ten responsibilities, and Presentation.md for my demonstration script. ADRs.md records the approved decisions drawn from M1 and Assignment 2.
+Open CivicConnect_PED_v2.0_Member1.docx for the PED, RTM.html for live requirement lookup, Member1_Completion_Checklist.md for the ten responsibilities, and Presentation.md for the demonstration script. ADRs.md records the approved decisions drawn from M1 and Assignment 2.
 
 ## Run the traceability checks
 

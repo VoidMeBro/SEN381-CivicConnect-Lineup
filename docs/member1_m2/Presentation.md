@@ -1,8 +1,8 @@
-# My Member 1 M2 presentation
+# The Member 1 M2 presentation
 
 ## Five minute demonstration
 
-0:00–0:45: Open PED document control and version history. Explain our M1-to-v2.0.2 continuity, approved four-member allocation and unchanged 20 requirement wordings.
+0:00–0:45: Open PED document control and version history. Explain the M1-to-v2.0.2 continuity, approved four-member allocation and unchanged 20 requirement wordings.
 
 0:45–1:30: Open change_register.json and show CR-M2-06. Explain why adding initial code changes evidence rather than the requirement. Run `python traceability.py diff` to show no requirement differences.
 
@@ -12,7 +12,7 @@
 
 3:30–4:15: Search NFR-06. Run `python traceability.py validate` and `python traceability.py verify-manifest`. Explain exact approved-change matching, safe evidence paths and hashes. A hash identifies bytes; tests establish behaviour.
 
-4:15–5:00: Open Governance.md and the actual issue/PR. Show Member1_Completion_Checklist.md. Explain that peer approvals and my live presentation are performed by the responsible people, while the authored work and executed evidence are available now.
+4:15–5:00: Open Governance.md and the actual issue/PR. Show Member1_Completion_Checklist.md. Explain that peer approvals and the live presentation are performed by the responsible people, while the authored work and executed evidence are available now.
 
 ## Defence points
 

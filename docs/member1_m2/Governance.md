@@ -1,4 +1,4 @@
-# My development record
+# Development record
 
 Task: M1-M2-TRACE. Branch: feat/member1-m2-traceability. Repository: VoidMeBro/SEN381-CivicConnect-Lineup.
 
@@ -8,7 +8,7 @@ Commits preserve the progression from the PED and validator to approved records,
 
 Verification: Python 3.12.14; 35 tests passed; all 20 requirements validated; no baseline wording/source/priority/criteria differences. The product demo reads a committed lifecycle event through a separate connection. The final document was rendered in Word for visual inspection.
 
-I approve publication of this contribution to the repository. The M2 pull request uses docs/member4-project-control as its base while M1 PR #7 is open. Retarget to main after M1 is merged. Two independent approvals are required before merging; reviewers record their own findings against the actual revision.
+Publication of this contribution to the repository is approved. The M2 pull request uses docs/member4-project-control as its base while M1 PR #7 is open. Retarget to main after M1 is merged. Two independent approvals are required before merging; reviewers record their own findings against the actual revision.
 
 Published draft PR: https://github.com/VoidMeBro/SEN381-CivicConnect-Lineup/pull/9
 

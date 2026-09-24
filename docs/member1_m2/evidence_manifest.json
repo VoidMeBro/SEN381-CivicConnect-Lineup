@@ -1,7 +1,7 @@
 [
   {
     "path": "traceability.py",
-    "sha256": "47f673bd750cc9fd0a20982c63e3d780a9d3ec086e43ecf51a68b4c2cebd27f3"
+    "sha256": "84b0ca3eca7895dc32046bfbcabd7ffcbd994c9152c9d68036f5f45f37b64c4e"
   },
   {
     "path": "tests/test_traceability.py",
@@ -29,7 +29,7 @@
   },
   {
     "path": "rtm.json",
-    "sha256": "2f524678929c3ce9ecd57d87463e7d2f9a1b7389e6df108db8c2d97a1d50fd15"
+    "sha256": "067390b305173d65be77539c0c90904a1088ba079e49878be7fe50f9e2997dbe"
   },
   {
     "path": "change_register.json",
@@ -37,15 +37,15 @@
   },
   {
     "path": "Approval_Record.md",
-    "sha256": "7e9695954eafe4304490df05111cdbe8c5646bedeb5465e88b651caf7da53079"
+    "sha256": "7e655778725e7a2660fbc0f4a0ff21ca64ce3689bd786830f24814d0233ef078"
   },
   {
     "path": "ADRs.md",
-    "sha256": "5439dec2c03aea7caa86489a237111a8f9e271e069a5bdb7dff209802af4a626"
+    "sha256": "78bbe8b0ff8727d9705470d70ac4610192af699d0cd92b6fb20129761d4be470"
   },
   {
     "path": "Product_Trace.md",
-    "sha256": "584c893a8c8362d82bd27cedd73e14770f3f6d0e0fb3ce08f89b4b56e6a12862"
+    "sha256": "4cf46ee6559befda0ab5595b27212c003f227a6da042e119e632e16171a3939f"
   },
   {
     "path": "product_trace.json",
@@ -65,22 +65,22 @@
   },
   {
     "path": "CivicConnect_PED_v2.0_Member1.docx",
-    "sha256": "86aaf8708983b6f7583436ebf350c00f1e7f7cc6246106f069a8e71b03bb763b"
+    "sha256": "9c592b5d3a41fdad24ab46ba9e02c527cc761bc9100a34a53820b3a39993cbcd"
   },
   {
     "path": "Human_Review.md",
-    "sha256": "9b3502ab73c9b5a96aa7dadded7b4081b3cce9c80820b408042b585da5ea481b"
+    "sha256": "ea4c3954f0986e966ffb4cb1d29d733a118b4049319c5ef837865d4dfdcd7735"
   },
   {
     "path": "Member1_Completion_Checklist.md",
-    "sha256": "71b586736896879865bb7c8fb723a7a26f438312398f9965135c34e46fd3c9f1"
+    "sha256": "9bf5898614169ab8bb5fa2fa3d57ab1f77aa6d5b95acfa33ec9f7dbb02ac058b"
   },
   {
     "path": "Presentation.md",
-    "sha256": "83075e23168d63cd912e6455114a9693b6a5bfcbaa391d88ce326683bdf38336"
+    "sha256": "273199b82921da13785ae1ffed2bdccd22fc2b9309706146724cbfcd8424a491"
   },
   {
     "path": "Member_Handoff.md",
-    "sha256": "cbe1f696b7b8ac7025e2847ab517ceaf4dd6874c475423fd246e42e793ef249f"
+    "sha256": "8b637eab2f15acb2a496c5f1951f1eff6f4e5b6a9a6e34158b7f156e69c6f7af"
   }
 ]

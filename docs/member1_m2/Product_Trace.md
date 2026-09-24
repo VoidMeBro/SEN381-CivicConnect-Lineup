@@ -1,6 +1,6 @@
 # Executed CivicConnect lifecycle trace
 
-I completed an executable initial product path for FR-13, FR-05 and FR-08. This is Member 1 implementation evidence applying our approved decisions; it is not attributed to the other members.
+An executable initial product path is complete for FR-13, FR-05 and FR-08. This is initial implementation evidence applying the approved decisions; it is not attributed to the other members.
 
 ## Run
 
@@ -50,4 +50,4 @@ The policy is infrastructure-independent. The store loads current state and invo
 
 ## Member evidence reconciliation
 
-Our A2 Task 1A coordinator responsibilities, Task 1B in-app feedback, Task 2 atomic/versioned persistence and Task 3 internal interface are reflected in the actual source, schema, tests, ADRs and RTM. A2 Task 4 informs our branch/review workflow and repeatable commands. The standalone reference slice gives Member 1 an executed trace now. Members 2–4 retain ownership of their wider M2 submissions; when received, their final application paths replace or extend this reference evidence through controlled updates.
+The A2 Task 1A coordinator responsibilities, Task 1B in-app feedback, Task 2 atomic/versioned persistence and Task 3 internal interface are reflected in the actual source, schema, tests, ADRs and RTM. A2 Task 4 informs the branch/review workflow and repeatable commands. The standalone reference slice gives Member 1 an executed trace now. Members 2–4 retain ownership of their wider M2 submissions; when received, their final application paths replace or extend this reference evidence through controlled updates.

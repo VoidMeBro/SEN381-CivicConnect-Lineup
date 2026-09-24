@@ -1,6 +1,6 @@
 # Approved Member 1 integration decisions
 
-I approve these decisions for the M2 traceability baseline. They apply M1 requirements and Assignment 2 research to CivicConnect; the other members supply their detailed M2 implementation artefacts.
+These decisions for the M2 traceability baseline are approved. They apply M1 requirements and Assignment 2 research to CivicConnect; the other members supply their detailed M2 implementation artefacts.
 
 ## ADR-M2-01 Lifecycle coordination
 
@@ -54,7 +54,7 @@ Consequences: Checks expose broken links and unauthorised baseline differences. 
 
 Status: Approved for Member 1 initial development and trace demonstration.
 
-Problem: the documentation defined a complete lifecycle trace but had no executable path. I need reproducible evidence of the approved rules without claiming other members have delivered code that has not been received.
+Problem: the documentation defined a complete lifecycle trace but had no executable path. Reproducible evidence is required of the approved rules without claiming other members have delivered code that has not been received.
 
 Decision: implement the in-process lifecycle service with the already available Python standard library and SQLite, using synthetic local data. The verified environment is Python 3.12.14 and SQLite 3.53.1. This choice commits the reference slice only; it does not replace Member 4's full application technology comparison.
 

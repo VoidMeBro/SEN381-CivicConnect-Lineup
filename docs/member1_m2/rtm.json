@@ -17,7 +17,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -38,7 +38,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -72,7 +72,7 @@
       "R-12",
       "R-18"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
@@ -93,7 +93,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -128,7 +128,7 @@
       "R-12",
       "R-18"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
@@ -149,7 +149,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -170,7 +170,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -204,7 +204,7 @@
       "R-12",
       "R-18"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
@@ -225,7 +225,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -246,7 +246,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -267,7 +267,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -301,7 +301,7 @@
       "R-12",
       "R-18"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
@@ -336,7 +336,7 @@
       "R-12",
       "R-18"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
@@ -357,7 +357,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -391,7 +391,7 @@
       "R-12",
       "R-18"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
@@ -412,7 +412,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -433,7 +433,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -454,7 +454,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   },
   {
@@ -485,7 +485,7 @@
       "R-17",
       "ADR-M2-04"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Initial automated tooling checks passed; full lifecycle traceability continues"
   },
   {
@@ -506,7 +506,7 @@
       "CR-M2-01",
       "R-10"
     ],
-    "approval": "Approved by me for the Member 1 M2 baseline",
+    "approval": "Approved",
     "acceptance_status": "Product acceptance not demonstrated"
   }
 ]

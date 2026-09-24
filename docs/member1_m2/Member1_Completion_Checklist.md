@@ -1,6 +1,6 @@
 # Member 1 M2 completion audit
 
-I approve this Member 1 contribution.
+The contribution is approved.
 
 | Task | Responsibility | State | Evidence |
 |---|---|---|---|
