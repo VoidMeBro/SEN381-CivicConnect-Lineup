@@ -1,0 +1,17 @@
+test_broken_link (test_traceability.TraceabilityTests.test_broken_link) ... ok
+test_duplicate_id (test_traceability.TraceabilityTests.test_duplicate_id) ... ok
+test_evidence_type (test_traceability.TraceabilityTests.test_evidence_type) ... ok
+test_html_escapes_content (test_traceability.TraceabilityTests.test_html_escapes_content) ... ok
+test_missing_field (test_traceability.TraceabilityTests.test_missing_field) ... ok
+test_missing_requirement (test_traceability.TraceabilityTests.test_missing_requirement) ... ok
+test_path_escape (test_traceability.TraceabilityTests.test_path_escape) ... ok
+test_status_typo (test_traceability.TraceabilityTests.test_status_typo) ... ok
+test_uncontrolled_wording_change (test_traceability.TraceabilityTests.test_uncontrolled_wording_change) ... ok
+test_unproven_implementation (test_traceability.TraceabilityTests.test_unproven_implementation) ... ok
+test_valid_preserved_baseline (test_traceability.TraceabilityTests.test_valid_preserved_baseline) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.107s
+
+OK
+PASS: 20-record M1 coverage and RTM structure/evidence checks. Human approval and product acceptance are not certified.

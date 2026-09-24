@@ -4,6 +4,10 @@ SEN381 team project for a controlled citizen service-request platform.
 
 ## Current engineering document
 
+[Member 1 PED v2.0 candidate and traceability pack](docs/member1_m2/README.md)
+
+The user confirmed all-team sign-off of M1 v0.11 on 24 September 2026 and a four-member team. The M2 pack records that confirmation, preserves the original and adds a 20-requirement RTM, change/risk controls and a tested traceability validator. M2 product-path integration, human approval and remote PR review remain outstanding. The historical M1 notes below describe the earlier state.
+
 [Milestone 1 PED including Member 4](docs/PED/CivicConnect_Milestone1_v0.11.docx)
 
 The document is the corrected version 0.11 team-review candidate. It adds missing minimum business capabilities, measurable proposed acceptance targets, complete RTM coverage and updated governance evidence. The original v0.9 remains in git history. The planned v1.0 baseline requires genuine team review, validation of proposed targets and sign-off. The decision log, AI usage register and review records are contained in the document. Page layout still requires a visual check in Word because automated rendering was unavailable.
