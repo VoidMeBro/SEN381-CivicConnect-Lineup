@@ -1,6 +1,6 @@
 # My approval record
 
-I approve the Member 1 M2 document, recorded decisions and v2.0.1 completion update. Our four-member allocation is confirmed. Our M1 reviewers signed off on 09/09/2026, and the signed record states ACCEPTED for the M1 assessor gate on that date. The M2 deadline is 30/09/2026.
+I approve the Member 1 M2 document, recorded decisions and v2.0.2 completion update. Our four-member allocation is confirmed. Our M1 reviewers signed off on 09/09/2026, and the signed record states ACCEPTED for the M1 assessor gate on that date. The M2 deadline is 30/09/2026.
 
 Approved v2.0 source: baselines/PED_v2.0_confirmed.docx
 

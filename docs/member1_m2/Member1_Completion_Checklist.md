@@ -1,18 +1,18 @@
 # Member 1 M2 completion audit
 
-Approval of the documentation is recorded. Product implementation remains evidence-based.
+I approve this Member 1 contribution.
 
 | Task | Responsibility | State | Evidence |
 |---|---|---|---|
-| 1 | PED continuity | Complete | Same PED continues as v2.0.1; approved v2.0 preserved with hash. Source M1 history retained. |
-| 2 | M1 baseline review | Complete | Sections 27 and 36; 13 FRs and 7 NFRs retain exact wording, source, priority and criteria. |
-| 3 | Controlled changes | Complete | Sections 28 and 36; change_register.json records rationale/status; validator requires a matching approved CR for baseline edits. |
-| 4 | Risk assumption and forward updates | Complete for available evidence | Sections 29/30; all seven FECs and architecture/data/technology/design/security/deployment/cost risks covered. Owners confirmed by me; risk mitigation execution remains ongoing. |
-| 5 | RTM ownership | Complete | All 20 requirements and required M2 field groups retained in PED, JSON and searchable HTML. |
-| 6 | RTM status control | Complete | Approval separated from implementation and acceptance. Not Yet Implemented is retained when product evidence is absent. |
-| 7 | Meaningful product trace | Awaiting Member 2 to 4 artefacts | Section 33 and handoff record specify FR-13/05/08 chain and expected tests. Tooling trace is real but does not substitute for the product path. |
-| 8 | PED consistency across member evidence | Available evidence checked; integration pending | Confirmed document and remote branches audited. No Member 2 to 4 product artefacts present in supplied files or fetched branches. |
-| 9 | Development and governance | Implementation complete; reviews separate | Traceability validator enhanced and tested; branch and real commits retained. Remote PR evidence is recorded in Governance.md. |
-| 10 | Presentation responsibility | Preparation complete | Presentation.md gives timed script, live lookup, exact commands, artefact map and defence questions. Actual student presentation is performed by Member 1. |
+| 1 | PED continuity | Complete | v2.0.2 continues the same PED; previous approved source and hashes retained. |
+| 2 | M1 review | Complete | All 20 original requirements, sources, priorities and criteria unchanged; exact diff is empty. |
+| 3 | Controlled changes | Complete | CR-M2-01 to CR-M2-06; exact approved-change checking and preserved source history. |
+| 4 | Risks assumptions and forward concerns | Complete for this contribution | All seven FECs and architecture/data/design/security/deployment/cost risks updated; reference-slice limitations recorded in R-18. |
+| 5 | RTM progression | Complete | All required fields for 20 requirements; real lifecycle and tooling evidence attached. |
+| 6 | Evidence-based statuses | Complete | Initial path is In Development; unrelated features remain Not Yet Implemented. Approval is separate. |
+| 7 | End-to-end product trace | Complete for initial service path | FR-13/05/08 -> ASR -> architecture -> data -> interface -> technology/ADR -> actual service -> 20 product tests and executed demo. |
+| 8 | PED consistency | Complete for available member evidence | M1/A2 contributions reconciled to ADR-M2-01/02/03/04, actual source and RTM. Later M2 submissions remain normal team integration work. |
+| 9 | Development and GitHub | Implemented; publication tracked in Governance.md | Real branch/commits; 35 tests; actual issue/PR links recorded when published. Independent reviews are performed by the reviewers. |
+| 10 | Presentation | Preparation complete | Timed script, live commands, source navigation and defence answers. Member 1 delivers the assessed presentation personally. |
 
-Member 1 cannot close Tasks 7 and 8 until the team supplies actual architecture, data, technology, design and application artefacts. The tool flags missing evidence without inventing it.
+The initial service trace is executed. The complete web application, other members' final submissions, independent PR approvals and the assessed presentation are separate outcomes; none is represented as completed by these tests.

@@ -1,3 +1,26 @@
+Command: python -m unittest discover -s tests -v
+Environment: Windows-11-10.0.26200-SP0; Python 3.12.14; SQLite 3.53.1
+
+test_FR05_history_failure_rolls_back_status (test_lifecycle.LifecycleTests.test_FR05_history_failure_rolls_back_status) ... ok
+test_FR08_rejection_feedback_is_committed (test_lifecycle.LifecycleTests.test_FR08_rejection_feedback_is_committed) ... ok
+test_FR08_rejection_requires_explanation (test_lifecycle.LifecycleTests.test_FR08_rejection_requires_explanation) ... ok
+test_FR13_acceptance_commits_status_and_event (test_lifecycle.LifecycleTests.test_FR13_acceptance_commits_status_and_event) ... ok
+test_FR13_acceptance_requires_assignee (test_lifecycle.LifecycleTests.test_FR13_acceptance_requires_assignee) ... ok
+test_FR13_acceptance_requires_due_time (test_lifecycle.LifecycleTests.test_FR13_acceptance_requires_due_time) ... ok
+test_FR13_competing_updates_have_one_winner (test_lifecycle.LifecycleTests.test_FR13_competing_updates_have_one_winner) ... ok
+test_FR13_complete_lifecycle_and_resolution_summary (test_lifecycle.LifecycleTests.test_FR13_complete_lifecycle_and_resolution_summary) ... ok
+test_FR13_due_time_must_follow_submission (test_lifecycle.LifecycleTests.test_FR13_due_time_must_follow_submission) ... ok
+test_FR13_rejects_inactive_assignee (test_lifecycle.LifecycleTests.test_FR13_rejects_inactive_assignee) ... ok
+test_FR13_rejects_invalid_transition (test_lifecycle.LifecycleTests.test_FR13_rejects_invalid_transition) ... ok
+test_FR13_rejects_naive_timestamp (test_lifecycle.LifecycleTests.test_FR13_rejects_naive_timestamp) ... ok
+test_FR13_rejects_wrong_department_assignee (test_lifecycle.LifecycleTests.test_FR13_rejects_wrong_department_assignee) ... ok
+test_FR13_stale_version_cannot_overwrite (test_lifecycle.LifecycleTests.test_FR13_stale_version_cannot_overwrite) ... ok
+test_NFR02_citizen_cannot_transition (test_lifecycle.LifecycleTests.test_NFR02_citizen_cannot_transition) ... ok
+test_NFR02_deactivation_applies_on_next_call (test_lifecycle.LifecycleTests.test_NFR02_deactivation_applies_on_next_call) ... ok
+test_NFR02_non_owner_cannot_read_history (test_lifecycle.LifecycleTests.test_NFR02_non_owner_cannot_read_history) ... ok
+test_NFR02_other_department_denied (test_lifecycle.LifecycleTests.test_NFR02_other_department_denied) ... ok
+test_database_rejects_invalid_status (test_lifecycle.LifecycleTests.test_database_rejects_invalid_status) ... ok
+test_database_rejects_orphan_event (test_lifecycle.LifecycleTests.test_database_rejects_orphan_event) ... ok
 test_broken_link (test_traceability.TraceabilityTests.test_broken_link) ... ok
 test_diff_retains_old_and_new_values (test_traceability.TraceabilityTests.test_diff_retains_old_and_new_values) ... ok
 test_duplicate_id (test_traceability.TraceabilityTests.test_duplicate_id) ... ok
@@ -15,6 +38,6 @@ test_unproven_implementation (test_traceability.TraceabilityTests.test_unproven_
 test_valid_preserved_baseline (test_traceability.TraceabilityTests.test_valid_preserved_baseline) ... ok
 
 ----------------------------------------------------------------------
-Ran 15 tests in 0.167s
+Ran 35 tests in 1.233s
 
 OK

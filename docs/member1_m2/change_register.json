@@ -48,5 +48,22 @@
     "approval_evidence": "Approval_Record.md",
     "scope_effect": "No requirement wording, source, priority or acceptance criteria changed.",
     "owner": "Member 1; detailed product artefacts coordinated with Members 2 to 4"
+  },
+  {
+    "id": "CR-M2-06",
+    "subject": "Execute the approved lifecycle trace with a local reference service",
+    "status": "Approved",
+    "requirements": [
+      "FR-03",
+      "FR-05",
+      "FR-08",
+      "FR-12",
+      "FR-13",
+      "NFR-02"
+    ],
+    "changes": [],
+    "approval_evidence": "Approval_Record.md",
+    "owner": "Member 1",
+    "scope_effect": "No M1 wording or criteria changed. Initial application evidence added; no whole-app stack or deployment commitment."
   }
 ]

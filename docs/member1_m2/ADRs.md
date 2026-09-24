@@ -49,3 +49,19 @@ Decision: Keep short-lived branches, substantive PRs, two independent approvals 
 Alternatives: Direct writes to main and document-only evidence checks were rejected. A hosted requirements database adds unnecessary operational overhead for 20 requirements.
 
 Consequences: Checks expose broken links and unauthorised baseline differences. Human review still assesses correctness and provides independent approvals.
+
+## ADR-M1-02 Executable initial lifecycle reference slice
+
+Status: Approved for Member 1 initial development and trace demonstration.
+
+Problem: the documentation defined a complete lifecycle trace but had no executable path. I need reproducible evidence of the approved rules without claiming other members have delivered code that has not been received.
+
+Decision: implement the in-process lifecycle service with the already available Python standard library and SQLite, using synthetic local data. The verified environment is Python 3.12.14 and SQLite 3.53.1. This choice commits the reference slice only; it does not replace Member 4's full application technology comparison.
+
+Alternatives: a mocks-only demo would not prove transactional persistence; introducing a web framework and hosted database would expand this Member 1 task and invent deployment commitments. The local relational store demonstrates real commit/rollback and ownership behaviour at low setup cost.
+
+Data and concurrency: state and mandatory history share one transaction. SQLite serialises writers with BEGIN IMMEDIATE; an expected-version predicate rejects stale commands. No blind retry occurs. A Conflict requires a fresh read and revalidated command. History uses a consistent read transaction. Foreign keys, non-null/check constraints and a unique request/version event guard structural integrity.
+
+Consequences: the initial path is executable and testable with no third-party packages or secrets. Local SQLite serialisation is not evidence of final multi-user capacity, database availability or hosted deployment. The later application may use another store behind the same behaviour contract. The actor parameter is an authenticated-context boundary; the offline demo is not a login implementation.
+
+Trace links: FR-05, FR-08, FR-13, NFR-02; ASR-L01/L02/L03; ADR-M2-01/02/03; CR-M2-06; R-12, R-17, R-18. Evidence: Product_Trace.md, product_trace.json, product/lifecycle.py, product/schema.sql, product/demo.py, tests/test_lifecycle.py and the actual execution logs.

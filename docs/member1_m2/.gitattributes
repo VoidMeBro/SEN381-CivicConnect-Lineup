@@ -4,3 +4,4 @@
 *.txt text eol=lf
 *.html text eol=lf
 *.docx -text
+*.sql text eol=lf

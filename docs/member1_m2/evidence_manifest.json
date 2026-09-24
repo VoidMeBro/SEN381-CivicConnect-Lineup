@@ -8,31 +8,79 @@
     "sha256": "2600eeccff38dda320652a41dc42f914fa970642440765dd72528f1463aa7b60"
   },
   {
+    "path": "tests/test_lifecycle.py",
+    "sha256": "0dab034b2c420d3e334236fdedc55be79e563588e96aa785f3a45af0bf6f266b"
+  },
+  {
+    "path": "product/lifecycle.py",
+    "sha256": "b59bf7e5765bf6b7cacd2f841ca802852c4c2f97a9917fd5c936090ba10c35e5"
+  },
+  {
+    "path": "product/schema.sql",
+    "sha256": "ea4c282fd2fafd8e05388c8f8a1b1cfea8dc41b89243b8b3634638d6f9db554e"
+  },
+  {
+    "path": "product/demo.py",
+    "sha256": "57e8d7222aabfa0c43722df4c0f4d247784e2ae21cd9c64a06bf02f69302c445"
+  },
+  {
     "path": "baseline_m1.json",
     "sha256": "06064cadbe97749178a6761d30927acead8a8a09610a114184f43e615a197353"
   },
   {
     "path": "rtm.json",
-    "sha256": "5e3d0ece66ca4f22c626d2f1003018db7a923dbe34537c1024c417e82679d3fe"
+    "sha256": "2f524678929c3ce9ecd57d87463e7d2f9a1b7389e6df108db8c2d97a1d50fd15"
   },
   {
     "path": "change_register.json",
-    "sha256": "01d3db1acb915911932cb4ca22eeccf20376a34f1c72be3b34abb019a81ae1e9"
+    "sha256": "279a6d0dace8c39b1274d6e14d0e929ad6837d2ca5cf0e092c375b036698057e"
   },
   {
     "path": "Approval_Record.md",
-    "sha256": "28e7b7d1dfa909d2ffccfe323a3190bcdbe5454e209675382b543f72a7811175"
+    "sha256": "7e9695954eafe4304490df05111cdbe8c5646bedeb5465e88b651caf7da53079"
   },
   {
     "path": "ADRs.md",
-    "sha256": "44528e7a4f958bb18614d2c8f2cd9393479a1f63a176a5e2596ebde2d311f596"
+    "sha256": "5439dec2c03aea7caa86489a237111a8f9e271e069a5bdb7dff209802af4a626"
+  },
+  {
+    "path": "Product_Trace.md",
+    "sha256": "584c893a8c8362d82bd27cedd73e14770f3f6d0e0fb3ce08f89b4b56e6a12862"
+  },
+  {
+    "path": "product_trace.json",
+    "sha256": "2878aa099e73eb1f0b11425aa137cbe974c6697d130c3b0c3de4c6704bf9b68f"
   },
   {
     "path": "evidence/verification.txt",
-    "sha256": "23f7611c64b190daaf2aa7b5a0bb84db95cbaab22ee7e4386a225332a69a175b"
+    "sha256": "4c41a319c2109f24b40539d63f75b462bdc8c7ff218e519e6315074c04fc2839"
+  },
+  {
+    "path": "evidence/product_demo.json",
+    "sha256": "d3051dcb885cb42b954ed8e0418d9e914ea4314ba892698bffca5a2dd8a214f8"
   },
   {
     "path": "baselines/PED_v2.0_confirmed.docx",
     "sha256": "792c662137beebf9bb6429bde72523cb859f94ec91ea9330ff7069448c5abafd"
+  },
+  {
+    "path": "CivicConnect_PED_v2.0_Member1.docx",
+    "sha256": "86aaf8708983b6f7583436ebf350c00f1e7f7cc6246106f069a8e71b03bb763b"
+  },
+  {
+    "path": "Human_Review.md",
+    "sha256": "c6f4acdfefeaff3e1fdb192533b18d412a4864dc9721fe9e0607a827ab22f746"
+  },
+  {
+    "path": "Member1_Completion_Checklist.md",
+    "sha256": "75ed9c5377a1e8584a658484939ce550c4bf31ed043600a5ab1b66e18f333564"
+  },
+  {
+    "path": "Presentation.md",
+    "sha256": "83075e23168d63cd912e6455114a9693b6a5bfcbaa391d88ce326683bdf38336"
+  },
+  {
+    "path": "Member_Handoff.md",
+    "sha256": "cbe1f696b7b8ac7025e2847ab517ceaf4dd6874c475423fd246e42e793ef249f"
   }
 ]

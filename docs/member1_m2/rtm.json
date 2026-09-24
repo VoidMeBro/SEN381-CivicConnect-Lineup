@@ -47,21 +47,33 @@
     "source": "Citizens / End Users",
     "priority": "Must Have",
     "acceptance_criteria": "Given three own requests in different states, the requester can list and open all three with correct statuses. Another requester cannot access them through the UI or direct requests.",
-    "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Citizen request history",
-    "data": "Requester-owned requests and events",
-    "design": "ADR-M2-03 in ADRs.md; Ownership-filtered history query",
-    "technology": "Member 4 stack record; see consolidated handover",
-    "implementation": [],
-    "verification": [],
-    "status": "Not Yet Implemented",
+    "asr": "ASR-L01 atomic history; ASR-L02 access control; ASR-L03 stale-update rejection",
+    "architecture": "RequestLifecycleCoordinator / LifecyclePolicy / SqliteLifecycleStore in product/lifecycle.py",
+    "data": "product/schema.sql: accounts, requests, lifecycle_events; status/history transaction and consistent history read",
+    "design": "In-process transition and owner-history contracts; ADR-M2-01/02/03 and ADR-M1-02",
+    "technology": "Reference slice: Python 3.12.14 / SQLite 3.53.1; ADR-M1-02",
+    "implementation": [
+      "product/lifecycle.py",
+      "product/schema.sql",
+      "product/demo.py"
+    ],
+    "verification": [
+      "tests/test_lifecycle.py",
+      "evidence/verification.txt",
+      "evidence/product_demo.json"
+    ],
+    "status": "In Development",
     "references": [
       "CR-M2-01",
       "R-10",
-      "ADR-M2-03"
+      "ADR-M2-03",
+      "ADR-M1-02",
+      "CR-M2-06",
+      "R-12",
+      "R-18"
     ],
     "approval": "Approved by me for the Member 1 M2 baseline",
-    "acceptance_status": "Product acceptance not demonstrated"
+    "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
     "id": "FR-04",
@@ -90,22 +102,34 @@
     "source": "Operational Staff",
     "priority": "Must Have",
     "acceptance_criteria": "A permitted update saves status, remark, actor and timestamp. Refreshing within 5 seconds shows the saved state to the requester. Invalid transitions do not alter the record; see FR-13.",
-    "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Lifecycle application service",
-    "data": "Atomic status and event update",
-    "design": "ADR-M2-01; ADR-M2-02 in ADRs.md; Explicit lifecycle coordinator",
-    "technology": "Member 4 stack record; see consolidated handover",
-    "implementation": [],
-    "verification": [],
-    "status": "Not Yet Implemented",
+    "asr": "ASR-L01 atomic history; ASR-L02 access control; ASR-L03 stale-update rejection",
+    "architecture": "RequestLifecycleCoordinator / LifecyclePolicy / SqliteLifecycleStore in product/lifecycle.py",
+    "data": "product/schema.sql: accounts, requests, lifecycle_events; status/history transaction and consistent history read",
+    "design": "In-process transition and owner-history contracts; ADR-M2-01/02/03 and ADR-M1-02",
+    "technology": "Reference slice: Python 3.12.14 / SQLite 3.53.1; ADR-M1-02",
+    "implementation": [
+      "product/lifecycle.py",
+      "product/schema.sql",
+      "product/demo.py"
+    ],
+    "verification": [
+      "tests/test_lifecycle.py",
+      "evidence/verification.txt",
+      "evidence/product_demo.json"
+    ],
+    "status": "In Development",
     "references": [
       "CR-M2-01",
       "R-10",
       "ADR-M2-01",
-      "ADR-M2-02"
+      "ADR-M2-02",
+      "ADR-M1-02",
+      "CR-M2-06",
+      "R-12",
+      "R-18"
     ],
     "approval": "Approved by me for the Member 1 M2 baseline",
-    "acceptance_status": "Product acceptance not demonstrated"
+    "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
     "id": "FR-06",
@@ -155,21 +179,33 @@
     "source": "Master brief Section 3 requester capabilities",
     "priority": "Must Have",
     "acceptance_criteria": "Within 60 seconds of a saved lifecycle event, authenticated request history/details show status, event time and a requester-visible explanation. Rejection and resolution require explanations. Email/push transport remains optional.",
-    "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Citizen feedback view",
-    "data": "Committed lifecycle events",
-    "design": "ADR-M2-03 in ADRs.md; Read history after successful commit",
-    "technology": "Member 4 stack record; see consolidated handover",
-    "implementation": [],
-    "verification": [],
-    "status": "Not Yet Implemented",
+    "asr": "ASR-L01 atomic history; ASR-L02 access control; ASR-L03 stale-update rejection",
+    "architecture": "RequestLifecycleCoordinator / LifecyclePolicy / SqliteLifecycleStore in product/lifecycle.py",
+    "data": "product/schema.sql: accounts, requests, lifecycle_events; status/history transaction and consistent history read",
+    "design": "In-process transition and owner-history contracts; ADR-M2-01/02/03 and ADR-M1-02",
+    "technology": "Reference slice: Python 3.12.14 / SQLite 3.53.1; ADR-M1-02",
+    "implementation": [
+      "product/lifecycle.py",
+      "product/schema.sql",
+      "product/demo.py"
+    ],
+    "verification": [
+      "tests/test_lifecycle.py",
+      "evidence/verification.txt",
+      "evidence/product_demo.json"
+    ],
+    "status": "In Development",
     "references": [
       "CR-M2-01",
       "R-10",
-      "ADR-M2-03"
+      "ADR-M2-03",
+      "ADR-M1-02",
+      "CR-M2-06",
+      "R-12",
+      "R-18"
     ],
     "approval": "Approved by me for the Member 1 M2 baseline",
-    "acceptance_status": "Product acceptance not demonstrated"
+    "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
     "id": "FR-09",
@@ -240,21 +276,33 @@
     "source": "Master brief Section 3 staff capabilities",
     "priority": "Must Have",
     "acceptance_criteria": "Staff can accept unassigned work or assign an eligible staff member. Assignee, actor and time are recorded. Ineligible/unauthorised assignments are rejected without changing ownership.",
-    "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Assignment service",
-    "data": "Eligible staff, assignee and audit event",
-    "design": "ADR-M2-02 in ADRs.md; Validate eligibility before atomic assignment",
-    "technology": "Member 4 stack record; see consolidated handover",
-    "implementation": [],
-    "verification": [],
-    "status": "Not Yet Implemented",
+    "asr": "ASR-L01 atomic history; ASR-L02 access control; ASR-L03 stale-update rejection",
+    "architecture": "RequestLifecycleCoordinator / LifecyclePolicy / SqliteLifecycleStore in product/lifecycle.py",
+    "data": "product/schema.sql: accounts, requests, lifecycle_events; status/history transaction and consistent history read",
+    "design": "In-process transition and owner-history contracts; ADR-M2-01/02/03 and ADR-M1-02",
+    "technology": "Reference slice: Python 3.12.14 / SQLite 3.53.1; ADR-M1-02",
+    "implementation": [
+      "product/lifecycle.py",
+      "product/schema.sql",
+      "product/demo.py"
+    ],
+    "verification": [
+      "tests/test_lifecycle.py",
+      "evidence/verification.txt",
+      "evidence/product_demo.json"
+    ],
+    "status": "In Development",
     "references": [
       "CR-M2-01",
       "R-10",
-      "ADR-M2-02"
+      "ADR-M2-02",
+      "ADR-M1-02",
+      "CR-M2-06",
+      "R-12",
+      "R-18"
     ],
     "approval": "Approved by me for the Member 1 M2 baseline",
-    "acceptance_status": "Product acceptance not demonstrated"
+    "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
     "id": "FR-13",
@@ -262,22 +310,34 @@
     "source": "Master brief Section 3 staff capabilities",
     "priority": "Must Have",
     "acceptance_criteria": "Permit Submitted to Accepted or Rejected; Accepted to In Progress; In Progress to Resolved; Resolved to Closed. Only authorised staff transition records. Acceptance requires an assignee and due time; rejection requires a reason and resolution requires a summary. Record actor/time/explanation. Reject all other transitions.",
-    "asr": "Candidate driver: access control NFR-02",
-    "architecture": "Lifecycle policy",
-    "data": "Status, assignee, due time and action history",
-    "design": "ADR-M2-01; ADR-M2-02 in ADRs.md; Transition policy and transaction boundary",
-    "technology": "Member 4 stack record; see consolidated handover",
-    "implementation": [],
-    "verification": [],
-    "status": "Not Yet Implemented",
+    "asr": "ASR-L01 atomic history; ASR-L02 access control; ASR-L03 stale-update rejection",
+    "architecture": "RequestLifecycleCoordinator / LifecyclePolicy / SqliteLifecycleStore in product/lifecycle.py",
+    "data": "product/schema.sql: accounts, requests, lifecycle_events; status/history transaction and consistent history read",
+    "design": "In-process transition and owner-history contracts; ADR-M2-01/02/03 and ADR-M1-02",
+    "technology": "Reference slice: Python 3.12.14 / SQLite 3.53.1; ADR-M1-02",
+    "implementation": [
+      "product/lifecycle.py",
+      "product/schema.sql",
+      "product/demo.py"
+    ],
+    "verification": [
+      "tests/test_lifecycle.py",
+      "evidence/verification.txt",
+      "evidence/product_demo.json"
+    ],
+    "status": "In Development",
     "references": [
       "CR-M2-01",
       "R-10",
       "ADR-M2-01",
-      "ADR-M2-02"
+      "ADR-M2-02",
+      "ADR-M1-02",
+      "CR-M2-06",
+      "R-12",
+      "R-18"
     ],
     "approval": "Approved by me for the Member 1 M2 baseline",
-    "acceptance_status": "Product acceptance not demonstrated"
+    "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
     "id": "NFR-01",
@@ -306,21 +366,33 @@
     "source": "System Administrators; Municipality / Organisation",
     "priority": "Must Have",
     "acceptance_criteria": "A user with the Citizen role cannot view, via the UI or a direct request, another citizen's submissions or personal data; role-based access is enforced on every relevant request.",
-    "asr": "Candidate driver: NFR-02",
-    "architecture": "Identity and authorisation across modules",
-    "data": "Ownership and role constraints",
-    "design": "ADR-M2-03 in ADRs.md; Deny unauthorised reads and writes",
-    "technology": "Member 4 stack record; see consolidated handover",
-    "implementation": [],
-    "verification": [],
-    "status": "Not Yet Implemented",
+    "asr": "ASR-L01 atomic history; ASR-L02 access control; ASR-L03 stale-update rejection",
+    "architecture": "RequestLifecycleCoordinator / LifecyclePolicy / SqliteLifecycleStore in product/lifecycle.py",
+    "data": "product/schema.sql: accounts, requests, lifecycle_events; status/history transaction and consistent history read",
+    "design": "In-process transition and owner-history contracts; ADR-M2-01/02/03 and ADR-M1-02",
+    "technology": "Reference slice: Python 3.12.14 / SQLite 3.53.1; ADR-M1-02",
+    "implementation": [
+      "product/lifecycle.py",
+      "product/schema.sql",
+      "product/demo.py"
+    ],
+    "verification": [
+      "tests/test_lifecycle.py",
+      "evidence/verification.txt",
+      "evidence/product_demo.json"
+    ],
+    "status": "In Development",
     "references": [
       "CR-M2-01",
       "R-10",
-      "ADR-M2-03"
+      "ADR-M2-03",
+      "ADR-M1-02",
+      "CR-M2-06",
+      "R-12",
+      "R-18"
     ],
     "approval": "Approved by me for the Member 1 M2 baseline",
-    "acceptance_status": "Product acceptance not demonstrated"
+    "acceptance_status": "Initial service path verified; full application acceptance not claimed"
   },
   {
     "id": "NFR-03",

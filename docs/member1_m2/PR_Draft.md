@@ -1,13 +1,9 @@
-# Local task M1-M2-TRACE
+# Complete Member 1 M2 evolution and executable lifecycle trace
 
-Owner: Member 1. Approved branch: feat/member1-m2-traceability. Remote issue and PR not yet created.
+This change continues the approved PED, preserves all 20 M1 requirements and adds a complete initial FR-13/05/08 trace through ASRs, architecture responsibilities, schema, interfaces, technology decisions, working service code and verification. The lifecycle path commits status/history together and restricts history to its requester. The traceability tool checks exact approved changes and evidence hashes.
 
-## Approved pull request
+Validation: 35 automated tests pass; the runnable demo reads the committed event through a separate connection; all 20 RTM records validate; the baseline wording/source/priority/criteria diff is empty. The PED is rendered and visually checked. Code and document assistance are disclosed.
 
-Title: Evolve CivicConnect PED and add requirement evidence validation
+Scope: Python/SQLite are the executable reference slice, not a whole-app technology decision. Browser login/UI, deployed timing/load acceptance and the other members' complete M2 submissions remain outside this initial slice. Independent reviewers must assess code and documents before merging.
 
-The supplied M1 candidate has no M2 evidence fields or repeatable control for broken trace links. This change extends the same PED, preserves all 20 source requirements, introduces a searchable RTM and adds a validator for coverage, statuses, changed wording and local evidence paths.
-
-Validation: see evidence/verification.txt. Product requirements remain unimplemented; approvals and product-path integration remain pending. The sample check-off file is fictional and excluded from approval evidence.
-
-Reviewers must compare all baseline wordings, inspect the evidence behind NFR-06, assess change/risk records and record genuine findings. Obtain two non-author approvals before merging. Commit under the actual contributor identity and retain real dates; no historical progress is reconstructed.
+This PR is stacked on docs/member4-project-control while M1 PR #7 remains open. Retarget to main after M1 is merged.
