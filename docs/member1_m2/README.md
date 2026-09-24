@@ -1,4 +1,4 @@
-# Member 1 M2 delivery
+# CivicConnect M2 engineering baseline
 
 The M2 PED and the decisions recorded in it are approved. The four-member allocation and M1 sign-off are confirmed. The current PED is v2.0.2; the approved v2.0 source is preserved unchanged in baselines.
 

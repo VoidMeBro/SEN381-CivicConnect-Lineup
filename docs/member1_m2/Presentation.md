@@ -1,4 +1,4 @@
-# The Member 1 M2 presentation
+# M2 evolution and traceability presentation
 
 ## Five minute demonstration
 
@@ -20,6 +20,6 @@
 - The store loads current state inside the transaction before calling the independent policy, avoiding stale cached validation.
 - Expected versions reject stale commands; two simultaneous commands have one winner. A conflict requires a fresh read, not a blind retry.
 - Staff department and active account state are rechecked on every operation; history is restricted to the active owner.
-- Python/SQLite were chosen for a reproducible initial reference slice without imposing a whole-application stack on Member 4.
+- Python/SQLite were chosen for a reproducible initial reference slice without imposing a whole-application stack on the wider application baseline.
 - Full browser authentication, deployed 5/60-second visibility and load targets are not proven by a local service test. The RTM therefore keeps affected requirements In Development.
 - M1/A2 decisions, actual code and tests are reflected in the same PED/RTM/ADR revision. Later member submissions can extend this evidence through controlled changes.

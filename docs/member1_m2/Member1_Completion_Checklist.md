@@ -1,4 +1,4 @@
-# Member 1 M2 completion audit
+# M2 delivery audit
 
 The contribution is approved.
 
@@ -11,8 +11,8 @@ The contribution is approved.
 | 5 | RTM progression | Complete | All required fields for 20 requirements; real lifecycle and tooling evidence attached. |
 | 6 | Evidence-based statuses | Complete | Initial path is In Development; unrelated features remain Not Yet Implemented. Approval is separate. |
 | 7 | End-to-end product trace | Complete for initial service path | FR-13/05/08 -> ASR -> architecture -> data -> interface -> technology/ADR -> actual service -> 20 product tests and executed demo. |
-| 8 | PED consistency | Complete for available member evidence | M1/A2 contributions reconciled to ADR-M2-01/02/03/04, actual source and RTM. Later M2 submissions remain normal team integration work. |
+| 8 | PED consistency | Available evidence reconciled; final integration outstanding | M1/A2 contributions reconciled to ADR-M2-01/02/03/04, actual source and RTM. Final architecture, data and technology submissions must be reconciled with PED, RTM and ADR records when received. |
 | 9 | Development and GitHub | Complete; published for review | Real branch/commits; 35 tests; issue #8 and draft PR #9 linked in Governance.md. Independent reviews are performed by the reviewers. |
-| 10 | Presentation | Preparation complete | Timed script, live commands, source navigation and defence answers. Member 1 delivers the assessed presentation personally. |
+| 10 | Presentation | Preparation complete | Timed script, live commands, source navigation and defence answers. The assessed presentation remains a live assessment activity. |
 
 The initial service trace is executed. The complete web application, other members' final submissions, independent PR approvals and the assessed presentation are separate outcomes; none is represented as completed by these tests.
