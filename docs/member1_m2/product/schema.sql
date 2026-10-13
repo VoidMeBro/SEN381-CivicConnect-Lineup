@@ -2,7 +2,7 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS accounts (
   id TEXT PRIMARY KEY,
-  role TEXT NOT NULL CHECK(role IN ('Citizen','Staff','Administrator')),
+  role TEXT NOT NULL CHECK(role IN ('Citizen','Staff','Administrator','Management')),
   department TEXT NOT NULL,
   active INTEGER NOT NULL CHECK(active IN (0,1))
 );

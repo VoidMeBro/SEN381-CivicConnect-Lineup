@@ -1,0 +1,37 @@
+name: CivicConnect quality gates
+
+on:
+  pull_request:
+  push:
+    branches: [main, "feat/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs/member1_m2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile product and tests
+        run: python -m compileall -q product tests
+      - name: Run requirement-linked regression checks
+        run: python -m unittest discover -s tests -v
+      - name: Run 10,000-record / 50-user lookup scenario
+        run: python product/performance_smoke.py
+      - name: Static security analysis
+        run: |
+          python -m pip install --disable-pip-version-check bandit
+          bandit -q -r product -s B101
+      - name: Secret scan
+        uses: gitleaks/gitleaks-action@v2.3.9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: detect --source . --redact --no-banner

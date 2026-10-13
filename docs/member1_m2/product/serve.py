@@ -42,12 +42,19 @@ def main():
         session_secret = secrets.token_urlsafe(48)
         print("Using an ephemeral session key; sessions will expire when the server stops.")
 
+    admin_setup_token = os.environ.get("CIVICCONNECT_ADMIN_SETUP_TOKEN")
+    if admin_setup_token is not None and len(admin_setup_token.encode("utf-8")) < 32:
+        parser.error("CIVICCONNECT_ADMIN_SETUP_TOKEN must contain at least 32 bytes")
+
     secure_cookie = os.environ.get("CIVICCONNECT_COOKIE_SECURE", "").lower() in {
         "1",
         "true",
         "yes",
     }
-    app = CivicConnectWeb(store, session_secret, cookie_secure=secure_cookie)
+    app = CivicConnectWeb(
+        store, session_secret, cookie_secure=secure_cookie,
+        admin_setup_token=admin_setup_token,
+    )
     with make_server(args.host, args.port, app) as server:
         print(f"CivicConnect is listening on http://{args.host}:{args.port}")
         server.serve_forever()

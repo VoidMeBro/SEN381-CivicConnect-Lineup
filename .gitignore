@@ -7,6 +7,8 @@
 *.sqlite3
 *.db
 data/
+docs/member1_m2/.test-tmp/
+__pycache__/
 
 # Office temporary files
 ~$*

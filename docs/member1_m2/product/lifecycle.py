@@ -56,6 +56,10 @@ def _password_matches(password, encoded):
         return False
 
 
+# Make failed logins for unknown accounts perform the same password-hash work.
+_DUMMY_PASSWORD_HASH = _password_hash("not-a-real-civicconnect-password")
+
+
 class LifecyclePolicy:
     """FR-13 transition rules, independent of persistence and the web interface."""
 
@@ -114,6 +118,25 @@ class SqliteLifecycleStore:
             connection.executescript(
                 Path(__file__).with_name("schema.sql").read_text(encoding="utf-8")
             )
+            account_schema = connection.execute(
+                "SELECT sql FROM sqlite_master WHERE type='table' AND name='accounts'"
+            ).fetchone()["sql"]
+            if "'Management'" not in account_schema:
+                connection.execute("PRAGMA foreign_keys=OFF")
+                connection.execute("BEGIN IMMEDIATE")
+                connection.execute(
+                    "CREATE TABLE accounts_new (id TEXT PRIMARY KEY, role TEXT NOT NULL "
+                    "CHECK(role IN ('Citizen','Staff','Administrator','Management')), "
+                    "department TEXT NOT NULL, active INTEGER NOT NULL CHECK(active IN (0,1)))"
+                )
+                connection.execute(
+                    "INSERT INTO accounts_new(id,role,department,active) "
+                    "SELECT id,role,department,active FROM accounts"
+                )
+                connection.execute("DROP TABLE accounts")
+                connection.execute("ALTER TABLE accounts_new RENAME TO accounts")
+                connection.commit()
+                connection.execute("PRAGMA foreign_keys=ON")
             columns = {
                 row["name"]
                 for row in connection.execute("PRAGMA table_info(requests)").fetchall()
@@ -142,6 +165,272 @@ class SqliteLifecycleStore:
         finally:
             connection.close()
 
+    def all_categories(self, actor_id):
+        connection = self.connect()
+        try:
+            actor = connection.execute("SELECT role,active FROM accounts WHERE id=?", (actor_id,)).fetchone()
+            if actor is None or not actor["active"] or actor["role"] != "Administrator":
+                raise Forbidden("Category administration is not accessible")
+            return [dict(row) for row in connection.execute(
+                "SELECT id,label,department,active FROM categories ORDER BY label"
+            ).fetchall()]
+        finally:
+            connection.close()
+
+    def manage_category(self, actor_id, category_id, label, department, active):
+        if not isinstance(category_id, str) or not category_id.strip() or len(category_id.strip()) > 80:
+            raise InvalidTransition("Category identifier is required and must be at most 80 characters")
+        if not isinstance(label, str) or not label.strip() or len(label.strip()) > 120:
+            raise InvalidTransition("Category label is required and must be at most 120 characters")
+        if not isinstance(department, str) or not department.strip() or len(department.strip()) > 80:
+            raise InvalidTransition("Department is required and must be at most 80 characters")
+        if active not in {"0", "1", 0, 1}:
+            raise InvalidTransition("Choose a category state")
+        connection = self.connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            actor = connection.execute("SELECT role,active FROM accounts WHERE id=?", (actor_id,)).fetchone()
+            if actor is None or not actor["active"] or actor["role"] != "Administrator":
+                raise Forbidden("Category administration is not accessible")
+            connection.execute(
+                "INSERT INTO categories(id,label,department,active) VALUES(?,?,?,?) "
+                "ON CONFLICT(id) DO UPDATE SET label=excluded.label,department=excluded.department,active=excluded.active",
+                (category_id.strip().casefold(), label.strip(), department.strip(), int(active)),
+            )
+            connection.commit()
+        except sqlite3.IntegrityError as exc:
+            connection.rollback()
+            raise InvalidTransition("Category identifier or label is already in use") from exc
+        except Exception:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
+
+    def needs_admin_setup(self):
+        connection = self.connect()
+        try:
+            return connection.execute(
+                "SELECT 1 FROM accounts WHERE role='Administrator' LIMIT 1"
+            ).fetchone() is None
+        finally:
+            connection.close()
+
+    def accounts(self, actor_id):
+        """Return account administration data only to an active administrator."""
+        connection = self.connect()
+        try:
+            actor = connection.execute(
+                "SELECT role,active FROM accounts WHERE id=?", (actor_id,)
+            ).fetchone()
+            if actor is None or not actor["active"] or actor["role"] != "Administrator":
+                raise Forbidden("Account administration is not accessible")
+            return [dict(row) for row in connection.execute(
+                "SELECT a.id,a.role,a.department,a.active,c.username,c.created_at "
+                "FROM accounts a JOIN credentials c ON c.account_id=a.id "
+                "ORDER BY c.username COLLATE NOCASE"
+            ).fetchall()]
+        finally:
+            connection.close()
+
+    def bootstrap_administrator(self, username, password, now):
+        """Create the first administrator only before any administrator exists."""
+        if not isinstance(username, str) or not username.strip() or len(username.strip()) > 80:
+            raise InvalidTransition("Username is required and must be at most 80 characters")
+        if not isinstance(password, str) or len(password) < 12 or len(password) > 1024:
+            raise InvalidTransition("Password must be 12 to 1,024 characters")
+        username = username.strip()
+        account_id = username.casefold()
+        connection = self.connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            if connection.execute("SELECT 1 FROM accounts WHERE role='Administrator' LIMIT 1").fetchone() is not None:
+                raise Forbidden("Administrator setup is already complete")
+            created_at = timestamp(now).isoformat()
+            connection.execute(
+                "INSERT INTO accounts(id,role,department,active) VALUES(?,'Administrator','',1)",
+                (account_id,),
+            )
+            connection.execute(
+                "INSERT INTO credentials(account_id,username,password_hash,created_at) VALUES(?,?,?,?)",
+                (account_id, account_id, _password_hash(password), created_at),
+            )
+            connection.commit()
+            return account_id
+        except sqlite3.IntegrityError as exc:
+            connection.rollback()
+            raise InvalidTransition("Administrator account could not be created") from exc
+        except Exception:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
+
+    def manage_account(self, actor_id, username, role, department, active, password, now):
+        """Create or update accounts under an administrator-only transaction."""
+        if not isinstance(username, str) or not username.strip() or len(username.strip()) > 80:
+            raise InvalidTransition("Username is required and must be at most 80 characters")
+        username = username.strip()
+        account_id = username.casefold()
+        if role not in {"Citizen", "Staff", "Management", "Administrator"}:
+            raise InvalidTransition("Choose a valid role")
+        department = department.strip() if isinstance(department, str) else ""
+        if role == "Staff" and not department:
+            raise InvalidTransition("Staff accounts require a department")
+        if role != "Staff":
+            department = ""
+        if active not in {"0", "1", 0, 1}:
+            raise InvalidTransition("Choose an account status")
+        active = int(active)
+        if password and (not isinstance(password, str) or len(password) < 12 or len(password) > 1024):
+            raise InvalidTransition("Password must be 12 to 1,024 characters")
+        connection = self.connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            actor = connection.execute(
+                "SELECT role,active FROM accounts WHERE id=?", (actor_id,)
+            ).fetchone()
+            if actor is None or not actor["active"] or actor["role"] != "Administrator":
+                raise Forbidden("Account administration is not accessible")
+            existing = connection.execute(
+                "SELECT id,role FROM accounts WHERE id=?", (account_id,)
+            ).fetchone()
+            if account_id == actor_id and (role != "Administrator" or active != 1):
+                raise InvalidTransition("You cannot remove your own active administrator access")
+            created_at = timestamp(now).isoformat()
+            if existing is None:
+                if not password:
+                    raise InvalidTransition("A password is required for a new account")
+                connection.execute(
+                    "INSERT INTO accounts(id,role,department,active) VALUES(?,?,?,?)",
+                    (account_id, role, department, active),
+                )
+                connection.execute(
+                    "INSERT INTO credentials(account_id,username,password_hash,created_at) "
+                    "VALUES(?,?,?,?)", (account_id, account_id, _password_hash(password), created_at)
+                )
+            else:
+                if existing["role"] == "Administrator" and (role != "Administrator" or not active):
+                    active_admins = connection.execute(
+                        "SELECT COUNT(*) FROM accounts WHERE role='Administrator' AND active=1"
+                    ).fetchone()[0]
+                    if active_admins <= 1:
+                        raise InvalidTransition("At least one active administrator must remain")
+                connection.execute(
+                    "UPDATE accounts SET role=?,department=?,active=? WHERE id=?",
+                    (role, department, active, account_id),
+                )
+                if password:
+                    connection.execute(
+                        "UPDATE credentials SET password_hash=? WHERE account_id=?",
+                        (_password_hash(password), account_id),
+                    )
+            connection.commit()
+            return account_id
+        except sqlite3.IntegrityError as exc:
+            connection.rollback()
+            raise InvalidTransition("Username is already registered") from exc
+        except Exception:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
+
+    def list_staff_requests(self, actor_id, query="", category="", status="", assignee="", sort="submitted", direction="desc"):
+        """Search, filter, and sort only the authenticated staff member's department."""
+        if sort not in {"submitted", "due", "reference", "title"} or direction not in {"asc", "desc"}:
+            raise InvalidTransition("Choose a valid sort order")
+        connection = self.connect()
+        try:
+            actor = connection.execute(
+                "SELECT role,department,active FROM accounts WHERE id=?", (actor_id,)
+            ).fetchone()
+            if actor is None or not actor["active"] or actor["role"] != "Staff":
+                raise Forbidden("Staff request list is not accessible")
+            escaped = query.strip().replace("!", "!!").replace("%", "!%").replace("_", "!_")
+            pattern = f"%{escaped}%" if query.strip() else ""
+            if status:
+                if status not in LifecyclePolicy.NEXT and status not in {"Closed", "Rejected"}:
+                    raise InvalidTransition("Choose a valid request status")
+            if assignee:
+                assigned_user = connection.execute(
+                    "SELECT a.id,a.role,a.department,a.active FROM accounts a "
+                    "JOIN credentials c ON c.account_id=a.id WHERE c.username=?",
+                    (assignee.strip().casefold(),),
+                ).fetchone()
+                if assigned_user is None or not assigned_user["active"] or assigned_user["role"] != "Staff" or assigned_user["department"] != actor["department"]:
+                    raise InvalidTransition("Assignee filter must be staff in your department")
+                assignee_id = assigned_user["id"]
+            else:
+                assignee_id = ""
+            order_values = []
+            for column in ("submitted", "due", "reference", "title"):
+                order_values.extend((column, direction, column, direction))
+            rows = connection.execute(
+                "SELECT * FROM requests WHERE department=? "
+                "AND (?='' OR reference LIKE ? ESCAPE '!' OR title LIKE ? ESCAPE '!') "
+                "AND (?='' OR category_id=?) AND (?='' OR status=?) AND (?='' OR assignee=?) "
+                " ORDER BY CASE WHEN ?='due' THEN due_at IS NULL END ASC, "
+                "CASE WHEN ?='submitted' AND ?='asc' THEN submitted_at END ASC, "
+                "CASE WHEN ?='submitted' AND ?='desc' THEN submitted_at END DESC, "
+                "CASE WHEN ?='due' AND ?='asc' THEN due_at END ASC, "
+                "CASE WHEN ?='due' AND ?='desc' THEN due_at END DESC, "
+                "CASE WHEN ?='reference' AND ?='asc' THEN reference END ASC, "
+                "CASE WHEN ?='reference' AND ?='desc' THEN reference END DESC, "
+                "CASE WHEN ?='title' AND ?='asc' THEN title END ASC, "
+                "CASE WHEN ?='title' AND ?='desc' THEN title END DESC, reference",
+                [actor["department"], query.strip(), pattern, pattern,
+                 category, category, status, status, assignee_id, assignee_id,
+                 sort] + order_values,
+            ).fetchall()
+            return [self._request_dict(row) for row in rows]
+        finally:
+            connection.close()
+
+    def management_summary(self, actor_id, date_from="", date_to="", category="", status=""):
+        """Return date-bounded oversight data only to management/administrator roles."""
+        connection = self.connect()
+        try:
+            actor = connection.execute(
+                "SELECT role,active FROM accounts WHERE id=?", (actor_id,)
+            ).fetchone()
+            if actor is None or not actor["active"] or actor["role"] not in {"Management", "Administrator"}:
+                raise Forbidden("Management reporting is not accessible")
+            for value in (date_from, date_to):
+                if value:
+                    try:
+                        datetime.strptime(value, "%Y-%m-%d")
+                    except ValueError as exc:
+                        raise InvalidTransition("Enter dates in YYYY-MM-DD format") from exc
+            if date_from and date_to and date_from > date_to:
+                raise InvalidTransition("The start date must be on or before the end date")
+            if status and status not in LifecyclePolicy.NEXT and status not in {"Closed", "Rejected"}:
+                raise InvalidTransition("Choose a valid request status")
+            params = [date_from or "0001-01-01", date_to or "9999-12-31", category, category, status, status]
+            where = ("date(submitted_at) BETWEEN date(?) AND date(?) "
+                     "AND (?='' OR category_id=?) AND (?='' OR status=?)")
+            rows = [self._request_dict(row) for row in connection.execute(
+                "SELECT * FROM requests WHERE date(submitted_at) BETWEEN date(?) AND date(?) "
+                "AND (?='' OR category_id=?) AND (?='' OR status=?) "
+                "ORDER BY submitted_at DESC,reference", params
+            ).fetchall()]
+            counts = {row["status"]: row["count"] for row in connection.execute(
+                "SELECT status,COUNT(*) AS count FROM requests WHERE date(submitted_at) BETWEEN date(?) AND date(?) "
+                "AND (?='' OR category_id=?) AND (?='' OR status=?) GROUP BY status", params
+            ).fetchall()}
+            category_counts = [dict(row) for row in connection.execute(
+                "SELECT category_label,status,COUNT(*) AS count FROM requests WHERE date(submitted_at) BETWEEN date(?) AND date(?) "
+                "AND (?='' OR category_id=?) AND (?='' OR status=?) "
+                "GROUP BY category_label,status ORDER BY category_label,status", params
+            ).fetchall()]
+            open_count = sum(counts.get(state, 0) for state in ("Submitted", "Accepted", "In Progress"))
+            overdue_count = sum(1 for row in rows if row["status"] not in {"Resolved", "Closed", "Rejected"}
+                                and row["due_at"] and timestamp(row["due_at"]) < datetime.now(timezone.utc))
+            return {"counts": counts, "requests": rows, "category_counts": category_counts,
+                    "open_count": open_count, "overdue_count": overdue_count}
+        finally:
+            connection.close()
+
     def register_citizen(self, username, password, now):
         if not isinstance(username, str) or not isinstance(password, str):
             raise InvalidTransition("Username and password are required")
@@ -149,8 +438,8 @@ class SqliteLifecycleStore:
         account_id = username.casefold()
         if not username or len(username) > 80:
             raise InvalidTransition("Username is required and must be at most 80 characters")
-        if not password or len(password) > 1024:
-            raise InvalidTransition("Password is required and is too long")
+        if len(password) < 12 or len(password) > 1024:
+            raise InvalidTransition("Password must be 12 to 1,024 characters")
         created_at = timestamp(now).isoformat()
         connection = self.connect()
         try:
@@ -178,6 +467,8 @@ class SqliteLifecycleStore:
     def authenticate(self, username, password):
         if not isinstance(username, str) or not isinstance(password, str):
             return None
+        if len(username) > 80 or len(password) > 1024:
+            return None
         account_id = username.strip().casefold()
         connection = self.connect()
         try:
@@ -187,11 +478,9 @@ class SqliteLifecycleStore:
                 "WHERE c.username=?",
                 (account_id,),
             ).fetchone()
-            if (
-                row is None
-                or not row["active"]
-                or not _password_matches(password, row["password_hash"])
-            ):
+            password_hash = row["password_hash"] if row is not None else _DUMMY_PASSWORD_HASH
+            matches = _password_matches(password, password_hash)
+            if row is None or not row["active"] or not matches:
                 return None
             return {"id": row["id"], "role": row["role"]}
         finally:

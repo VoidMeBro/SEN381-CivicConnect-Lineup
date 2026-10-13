@@ -1,12 +1,16 @@
 """Small server-rendered WSGI interface for the CivicConnect request workflow."""
 
+from collections import OrderedDict, deque
 from datetime import datetime, timezone
 from html import escape
 import base64
 import hashlib
 import hmac
 import json
+import math
 import secrets
+import threading
+import time
 from http.cookies import SimpleCookie
 from urllib.parse import parse_qs
 from zoneinfo import ZoneInfo
@@ -15,6 +19,7 @@ from lifecycle import (
     Conflict,
     Forbidden,
     InvalidTransition,
+    LifecyclePolicy,
     RequestLifecycleCoordinator,
 )
 
@@ -22,6 +27,10 @@ from lifecycle import (
 COOKIE_NAME = "civicconnect_session"
 SESSION_SECONDS = 1800
 MAX_BODY_BYTES = 32_768
+LOGIN_WINDOW_SECONDS = 900
+LOGIN_ACCOUNT_LIMIT = 8
+LOGIN_ADDRESS_LIMIT = 60
+LOGIN_BUCKET_LIMIT = 4096
 
 
 def _e(value):
@@ -54,7 +63,7 @@ footer{{color:#536761;border-top:1px solid #ccd9d4;margin-top:3rem}}
 class CivicConnectWeb:
     """Authenticate users and render request pages without a separate web framework."""
 
-    def __init__(self, store, session_secret, cookie_secure=False, clock=None):
+    def __init__(self, store, session_secret, cookie_secure=False, clock=None, admin_setup_token=None):
         if isinstance(session_secret, str):
             session_secret = session_secret.encode("utf-8")
         if not isinstance(session_secret, bytes) or len(session_secret) < 32:
@@ -63,10 +72,19 @@ class CivicConnectWeb:
         self.secret = session_secret
         self.cookie_secure = cookie_secure
         self.clock = clock or (lambda: datetime.now(timezone.utc))
+        if admin_setup_token is not None and (not isinstance(admin_setup_token, str) or len(admin_setup_token.encode("utf-8")) < 32):
+            raise ValueError("CIVICCONNECT_ADMIN_SETUP_TOKEN must contain at least 32 bytes")
+        self.admin_setup_token = admin_setup_token
         self.coordinator = RequestLifecycleCoordinator(store, clock=self._now)
+        self._login_failures = OrderedDict()
+        self._login_lock = threading.Lock()
 
     def _now(self):
         return self.clock().astimezone(timezone.utc).isoformat()
+
+    @staticmethod
+    def _landing_path(role):
+        return {"Administrator": "/admin/accounts", "Management": "/management/summary"}.get(role, "/requests")
 
     def _encode_session(self, session):
         payload = json.dumps(session, separators=(",", ":")).encode("utf-8")
@@ -111,6 +129,48 @@ class CivicConnectWeb:
             value += "; Secure"
         return value
 
+    def _login_keys(self, environ, username):
+        address = str(environ.get("REMOTE_ADDR") or "unknown")[:128]
+        normalized = username.strip().casefold() if isinstance(username, str) else ""
+        return ("account", address, normalized), ("address", address, "")
+
+    def _login_retry_after(self, keys, now):
+        retry_after = 0
+        with self._login_lock:
+            for key, failures in list(self._login_failures.items()):
+                while failures and now - failures[0] >= LOGIN_WINDOW_SECONDS:
+                    failures.popleft()
+                if not failures:
+                    self._login_failures.pop(key, None)
+            for key in keys:
+                failures = self._login_failures.get(key)
+                limit = LOGIN_ADDRESS_LIMIT if key[0] == "address" else LOGIN_ACCOUNT_LIMIT
+                if failures and len(failures) >= limit:
+                    retry_after = max(
+                        retry_after,
+                        math.ceil(LOGIN_WINDOW_SECONDS - (now - failures[0])),
+                    )
+        return retry_after
+
+    def _record_login_failure(self, keys, now):
+        limits = (LOGIN_ACCOUNT_LIMIT, LOGIN_ADDRESS_LIMIT)
+        with self._login_lock:
+            for key, limit in zip(keys, limits):
+                failures = self._login_failures.get(key)
+                if failures is None:
+                    failures = deque()
+                    self._login_failures[key] = failures
+                while failures and now - failures[0] >= LOGIN_WINDOW_SECONDS:
+                    failures.popleft()
+                failures.append(now)
+                self._login_failures.move_to_end(key)
+                while len(self._login_failures) > LOGIN_BUCKET_LIMIT:
+                    self._login_failures.popitem(last=False)
+
+    def _clear_login_failure(self, account_key):
+        with self._login_lock:
+            self._login_failures.pop(account_key, None)
+
     @staticmethod
     def _body(environ):
         try:
@@ -141,6 +201,8 @@ class CivicConnectWeb:
                 "Content-Security-Policy",
                 "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
             ),
+            ("X-Frame-Options", "DENY"),
+            ("Permissions-Policy", "camera=(), microphone=(), geolocation=()"),
         ]
         if headers:
             response_headers.extend(headers)
@@ -164,9 +226,17 @@ class CivicConnectWeb:
     @staticmethod
     def _nav(session):
         if session.get("account_id"):
+            links = ""
+            if session.get("role") == "Administrator":
+                links += ' <a href="/admin/accounts">Accounts</a> <a href="/admin/categories">Categories</a>'
+            if session.get("role") in {"Management", "Administrator"}:
+                links += ' <a href="/management/summary">Management summary</a>'
+            if session.get("role") in {"Citizen", "Staff"}:
+                links += ' <a href="/requests">Requests</a>'
             return (
                 f'<span>{_e(session["account_id"])}</span>'
-                '<form method="post" action="/logout" style="display:inline">'
+                + links
+                + '<form method="post" action="/logout" style="display:inline">'
                 f'{CivicConnectWeb._hidden_csrf(session)}<button type="submit">Sign out</button></form>'
             )
         return '<a href="/login">Sign in</a> · <a href="/register">Create account</a>'
@@ -194,9 +264,21 @@ class CivicConnectWeb:
             + '<section class="panel"><form method="post" action="/register">'
             + self._hidden_csrf(session)
             + '<label>Username<input name="username" autocomplete="username" maxlength="80" required></label>'
-            + '<label>Password<input name="password" type="password" autocomplete="new-password" maxlength="1024" required></label>'
+            + '<label>Password (at least 12 characters)<input name="password" type="password" autocomplete="new-password" minlength="12" maxlength="1024" required></label>'
             + '<button type="submit">Create account</button></form></section>',
             self._nav(session),
+        )
+
+    def _bootstrap_page(self, session, error=""):
+        alert = f'<p class="error" role="alert">{_e(error)}</p>' if error else ""
+        return _page(
+            "Set up administrator",
+            alert + '<section class="panel"><p>Create the first administrator account. Setup closes permanently after an administrator account is created.</p>'
+            + '<form method="post" action="/setup/administrator">' + self._hidden_csrf(session)
+            + '<label>Username<input name="username" maxlength="80" required></label>'
+            + '<label>Password (at least 12 characters)<input name="password" type="password" minlength="12" maxlength="1024" required></label>'
+            + '<label>One-time setup token<input name="setup_token" type="password" autocomplete="off" required></label>'
+            + '<button type="submit">Create administrator</button></form></section>', self._nav(session)
         )
 
     def _request_form(self, session, categories, error="", values=None, field_error=None):
@@ -239,7 +321,8 @@ class CivicConnectWeb:
         )
         return _page("Submit a service request", body, self._nav(session))
 
-    def _list_page(self, session, requests):
+    def _list_page(self, session, requests, filters=None):
+        filters = filters or {}
         role = "staff requests" if session.get("role") == "Staff" else "your requests"
         cards = "".join(
             '<article class="card"><div class="row"><strong>'
@@ -256,9 +339,82 @@ class CivicConnectWeb:
             if session.get("role") == "Citizen"
             else ""
         )
+        search = ""
+        if session.get("role") == "Staff":
+            selected = lambda name, value: " selected" if filters.get(name, "") == value else ""
+            search = (
+                '<section class="panel"><h2>Find requests</h2><form method="get" action="/requests">'
+                f'<label>Reference or title<input name="q" maxlength="120" value="{_e(filters.get("q", ""))}"></label>'
+                '<label>Category<select name="category"><option value="">All categories</option>'
+                + "".join(f'<option value="{_e(c["id"])}"{selected("category", c["id"])}>{_e(c["label"])}</option>' for c in self.store.categories())
+                + '</select></label><label>Status<select name="status"><option value="">All statuses</option>'
+                + "".join(f'<option{selected("status", s)}>{s}</option>' for s in sorted(LifecyclePolicy.NEXT.keys() | {"Rejected"}))
+                + '</select></label><label>Assignee username<input name="assignee" maxlength="80" value="'
+                + _e(filters.get("assignee", ""))
+                + '"></label><label>Sort by<select name="sort">'
+                + "".join(f'<option value="{v}"{selected("sort", v)}>{label}</option>' for v,label in (("submitted","Submission date"),("due","Due date"),("reference","Reference"),("title","Title")))
+                + '</select></label><label>Direction<select name="direction">'
+                + ''.join(f'<option value="{v}"{selected("direction", v)}>{v.title()}</option>' for v in ("asc","desc"))
+                + '</select></label><button type="submit">Apply filters</button><a href="/requests">Clear filters</a></form></section>'
+            )
         return _page(
-            "Requests", f"<p>View {role} and their current status.</p>{submit}{cards}", self._nav(session)
+            "Requests", f"<p>View {role} and their current status.</p>{submit}{search}{cards}", self._nav(session)
         )
+
+    def _admin_accounts_page(self, session, accounts, error=""):
+        alert = f'<p class="error" role="alert">{_e(error)}</p>' if error else ""
+        rows = "".join(
+            '<tr><td>' + _e(a["username"]) + '</td><td><form method="post" action="/admin/accounts">'
+            + self._hidden_csrf(session) + f'<input type="hidden" name="username" value="{_e(a["username"])}">'
+            + '<label>Role<select name="role">' + "".join(
+                f'<option{" selected" if a["role"] == role else ""}>{role}</option>'
+                for role in ("Citizen", "Staff", "Management", "Administrator"))
+            + '</select></label><label>Department<input name="department" maxlength="80" value="'
+            + _e(a["department"]) + '"></label><label>State<select name="active">'
+            + f'<option value="1"{" selected" if a["active"] else ""}>Active</option>'
+            + f'<option value="0"{" selected" if not a["active"] else ""}>Inactive</option>'
+            + '</select></label><label>New password (optional)<input name="password" type="password" minlength="12" maxlength="1024" autocomplete="new-password"></label>'
+            + '<button type="submit">Update account</button></form></td></tr>' for a in accounts)
+        form = (
+            '<section class="panel"><h2>Create or update account</h2><form method="post" action="/admin/accounts">'
+            + self._hidden_csrf(session)
+            + '<label>Username<input name="username" maxlength="80" required></label>'
+            + '<label>Role<select name="role"><option>Citizen</option><option>Staff</option><option>Management</option><option>Administrator</option></select></label>'
+            + '<label>Department (staff only)<input name="department" maxlength="80"></label>'
+            + '<label>Account state<select name="active"><option value="1">Active</option><option value="0">Inactive</option></select></label>'
+            + '<label>Password (required for new accounts; 12+ characters)<input name="password" type="password" minlength="12" maxlength="1024" autocomplete="new-password"></label>'
+            + '<button type="submit">Save account</button></form></section>'
+        )
+        return _page("Account administration", alert + form + '<section class="panel"><h2>Accounts</h2><table><thead><tr><th>Username</th><th>Role, department, state and password</th></tr></thead><tbody>' + rows + '</tbody></table></section>', self._nav(session))
+
+    def _admin_categories_page(self, session, categories, error=""):
+        alert = f'<p class="error" role="alert">{_e(error)}</p>' if error else ""
+        rows = "".join(
+            '<tr><td>' + _e(c["id"]) + '</td><td><form method="post" action="/admin/categories">'
+            + self._hidden_csrf(session) + f'<input type="hidden" name="category_id" value="{_e(c["id"])}">'
+            + f'<label>Label<input name="label" maxlength="120" value="{_e(c["label"])}" required></label>'
+            + f'<label>Department<input name="department" maxlength="80" value="{_e(c["department"])}" required></label>'
+            + f'<label>State<select name="active"><option value="1"{" selected" if c["active"] else ""}>Active</option><option value="0"{" selected" if not c["active"] else ""}>Inactive</option></select></label>'
+            + '<button type="submit">Update category</button></form></td></tr>' for c in categories)
+        create = ('<section class="panel"><h2>Add category</h2><form method="post" action="/admin/categories">'
+                  + self._hidden_csrf(session) + '<label>Category identifier<input name="category_id" maxlength="80" required></label>'
+                  + '<label>Label<input name="label" maxlength="120" required></label><label>Department<input name="department" maxlength="80" required></label>'
+                  + '<input type="hidden" name="active" value="1"><button type="submit">Add category</button></form></section>')
+        return _page("Category administration", alert + create + '<section class="panel"><h2>Categories</h2><table><thead><tr><th>Identifier</th><th>Label, department and state</th></tr></thead><tbody>' + rows + '</tbody></table><p>Inactive categories stay attached to past requests but cannot be selected for new submissions.</p></section>', self._nav(session))
+
+    def _management_page(self, session, summary, date_from, date_to, category, status):
+        counts = f'<li>Open: {summary["open_count"]}</li><li>Overdue: {summary["overdue_count"]}</li>' + "".join(f'<li>{_e(k)}: {int(v)}</li>' for k,v in sorted(summary["counts"].items()))
+        category_counts = "".join(f'<li>{_e(row["category_label"])} · {_e(row["status"])}: {int(row["count"])}</li>' for row in summary["category_counts"]) or "<li>No requests match these filters.</li>"
+        today = datetime.now(timezone.utc).date()
+        rows = "".join(f'<tr><td>{_e(r["reference"])}</td><td>{_e(r["status"])}</td><td>{_e(r["category_label"])}</td><td>{_e(r["assignee"] or "Unassigned")}</td><td>{_e(r["submitted_at"])}</td><td>{max(0, (today - datetime.fromisoformat(r["submitted_at"]).date()).days)}</td><td>{_e(r["title"])}</td></tr>' for r in summary["requests"])
+        form = ('<section class="panel"><h2>Report filters</h2><form method="get" action="/management/summary">'
+                f'<label>From<input type="date" name="from" value="{_e(date_from)}"></label><label>To<input type="date" name="to" value="{_e(date_to)}"></label>'
+                f'<label>Category<select name="category"><option value="">All categories</option>'
+                + "".join(f'<option value="{_e(c["id"])}"{" selected" if category == c["id"] else ""}>{_e(c["label"])}</option>' for c in self.store.categories())
+                + '</select></label><label>Status<select name="status"><option value="">All statuses</option>'
+                + "".join(f'<option{" selected" if status == s else ""}>{_e(s)}</option>' for s in sorted(LifecyclePolicy.NEXT.keys() | {"Rejected"}))
+                + '</select></label><button type="submit">Update summary</button></form></section>')
+        return _page("Management summary", form + '<section class="panel"><h2>Requests by status</h2><ul>' + counts + '</ul><h2>Requests by category and status</h2><ul>' + category_counts + '</ul></section><section class="panel"><h2>Request activity</h2><table><thead><tr><th>Reference</th><th>Status</th><th>Category</th><th>Assignee</th><th>Submitted</th><th>Age (days)</th><th>Title</th></tr></thead><tbody>' + rows + '</tbody></table></section>', self._nav(session))
 
     def _detail_page(self, session, detail, error=""):
         request = detail["request"]
@@ -332,7 +488,7 @@ class CivicConnectWeb:
 
             if method == "GET" and path in {"/", "/login"}:
                 if session.get("account_id"):
-                    return self._redirect(start_response, "/requests", cookie_header)
+                    return self._redirect(start_response, self._landing_path(session.get("role")), cookie_header)
                 return self._response(
                     start_response, "200 OK", self._login_page(session), cookie=cookie_header
                 )
@@ -340,6 +496,21 @@ class CivicConnectWeb:
                 return self._response(
                     start_response, "200 OK", self._register_page(session), cookie=cookie_header
                 )
+            if method == "GET" and path == "/setup/administrator":
+                if self.admin_setup_token is None or not self.store.needs_admin_setup():
+                    raise Forbidden("Administrator setup is already complete")
+                return self._response(start_response, "200 OK", self._bootstrap_page(session), cookie=cookie_header)
+            if method == "POST" and path == "/setup/administrator":
+                supplied_token = form.get("setup_token", "")
+                if self.admin_setup_token is None or not hmac.compare_digest(supplied_token, self.admin_setup_token):
+                    raise Forbidden("Administrator setup is not available")
+                try:
+                    account_id = self.store.bootstrap_administrator(form.get("username"), form.get("password"), self._now())
+                except InvalidTransition as exc:
+                    return self._response(start_response, "400 Bad Request", self._bootstrap_page(session, str(exc)), cookie=cookie_header)
+                session = self._new_session(account_id)
+                session["role"] = "Administrator"
+                return self._redirect(start_response, "/admin/accounts", self._cookie(session))
             if method == "POST" and path == "/register":
                 try:
                     account = self.store.register_citizen(
@@ -356,19 +527,32 @@ class CivicConnectWeb:
                 session["role"] = account["role"]
                 return self._redirect(start_response, "/requests", self._cookie(session))
             if method == "POST" and path == "/login":
-                account = self.store.authenticate(
-                    form.get("username", ""), form.get("password", "")
-                )
+                username = form.get("username", "")
+                keys = self._login_keys(environ, username)
+                retry_after = self._login_retry_after(keys, time.monotonic())
+                if retry_after:
+                    return self._response(
+                        start_response,
+                        "429 Too Many Requests",
+                        self._login_page(
+                            session, "Too many sign-in attempts. Try again later."
+                        ),
+                        headers=[("Retry-After", str(retry_after))],
+                        cookie=cookie_header,
+                    )
+                account = self.store.authenticate(username, form.get("password", ""))
                 if account is None:
+                    self._record_login_failure(keys, time.monotonic())
                     return self._response(
                         start_response,
                         "401 Unauthorized",
                         self._login_page(session, "Username or password is incorrect."),
                         cookie=cookie_header,
                     )
+                self._clear_login_failure(keys[0])
                 session = self._new_session(account["id"])
                 session["role"] = account["role"]
-                return self._redirect(start_response, "/requests", self._cookie(session))
+                return self._redirect(start_response, self._landing_path(account["role"]), self._cookie(session))
             if method == "POST" and path == "/logout":
                 session = self._new_session()
                 return self._redirect(start_response, "/login", self._cookie(session))
@@ -376,12 +560,62 @@ class CivicConnectWeb:
             if not session.get("account_id"):
                 return self._redirect(start_response, "/login", cookie_header)
             if method == "GET" and path == "/requests":
+                query = parse_qs(environ.get("QUERY_STRING", ""), keep_blank_values=True)
+                filters = {key: query.get(key, [""])[0][:120] for key in ("q", "category", "status", "assignee", "sort", "direction")}
+                if session.get("role") == "Staff":
+                    requests = self.store.list_staff_requests(
+                        session["account_id"], filters["q"], filters["category"],
+                        filters["status"], filters["assignee"], filters["sort"] or "submitted",
+                        filters["direction"] or "desc",
+                    )
+                else:
+                    requests = self.store.list_requests(session["account_id"])
                 return self._response(
                     start_response,
                     "200 OK",
-                    self._list_page(session, self.store.list_requests(session["account_id"])),
+                    self._list_page(session, requests, filters),
                     cookie=cookie_header,
                 )
+            if method == "GET" and path == "/admin/accounts":
+                if session.get("role") != "Administrator":
+                    raise Forbidden("Administrator access required")
+                return self._response(start_response, "200 OK", self._admin_accounts_page(session, self.store.accounts(session["account_id"])), cookie=cookie_header)
+            if method == "GET" and path == "/admin/categories":
+                if session.get("role") != "Administrator":
+                    raise Forbidden("Administrator access required")
+                return self._response(start_response, "200 OK", self._admin_categories_page(session, self.store.all_categories(session["account_id"])), cookie=cookie_header)
+            if method == "POST" and path == "/admin/categories":
+                if session.get("role") != "Administrator":
+                    raise Forbidden("Administrator access required")
+                try:
+                    self.store.manage_category(session["account_id"], form.get("category_id"), form.get("label"), form.get("department"), form.get("active"))
+                except InvalidTransition as exc:
+                    return self._response(start_response, "400 Bad Request", self._admin_categories_page(session, self.store.all_categories(session["account_id"]), str(exc)), cookie=cookie_header)
+                return self._redirect(start_response, "/admin/categories", cookie_header)
+            if method == "POST" and path == "/admin/accounts":
+                if session.get("role") != "Administrator":
+                    raise Forbidden("Administrator access required")
+                try:
+                    self.store.manage_account(
+                        session["account_id"], form.get("username"), form.get("role"),
+                        form.get("department", ""), form.get("active"), form.get("password", ""), self._now()
+                    )
+                except InvalidTransition as exc:
+                    return self._response(start_response, "400 Bad Request", self._admin_accounts_page(session, self.store.accounts(session["account_id"]), str(exc)), cookie=cookie_header)
+                return self._redirect(start_response, "/admin/accounts", cookie_header)
+            if method == "GET" and path == "/management/summary":
+                if session.get("role") not in {"Management", "Administrator"}:
+                    raise Forbidden("Management access required")
+                query = parse_qs(environ.get("QUERY_STRING", ""), keep_blank_values=True)
+                date_from = query.get("from", [""])[0][:10]
+                date_to = query.get("to", [""])[0][:10]
+                category = query.get("category", [""])[0][:80]
+                status = query.get("status", [""])[0][:30]
+                try:
+                    summary = self.store.management_summary(session["account_id"], date_from, date_to, category, status)
+                except InvalidTransition as exc:
+                    return self._response(start_response, "400 Bad Request", _page("Invalid report filters", f'<p class="error" role="alert">{_e(exc)}</p><p><a href="/management/summary">Return to summary</a></p>', self._nav(session)), cookie=cookie_header)
+                return self._response(start_response, "200 OK", self._management_page(session, summary, date_from, date_to, category, status), cookie=cookie_header)
             if method == "GET" and path == "/requests/new":
                 if session.get("role") != "Citizen":
                     raise Forbidden("Only citizens can submit requests")
@@ -444,15 +678,24 @@ class CivicConnectWeb:
                         due_at = parsed_due.astimezone(timezone.utc).isoformat()
                     except ValueError as exc:
                         raise InvalidTransition("Enter a valid due date") from exc
-                self.coordinator.transition(
-                    session["account_id"],
-                    reference,
-                    target,
-                    int(version),
-                    form.get("explanation", ""),
-                    form.get("assignee", "").strip() or None,
-                    due_at,
-                )
+                try:
+                    self.coordinator.transition(
+                        session["account_id"],
+                        reference,
+                        target,
+                        int(version),
+                        form.get("explanation", ""),
+                        form.get("assignee", "").strip() or None,
+                        due_at,
+                    )
+                except (InvalidTransition, Conflict) as exc:
+                    detail = self.store.history(session["account_id"], reference)
+                    return self._response(
+                        start_response,
+                        "400 Bad Request" if isinstance(exc, InvalidTransition) else "409 Conflict",
+                        self._detail_page(session, detail, str(exc)),
+                        cookie=cookie_header,
+                    )
                 return self._redirect(start_response, f"/requests/{reference}", cookie_header)
             return self._response(
                 start_response,
