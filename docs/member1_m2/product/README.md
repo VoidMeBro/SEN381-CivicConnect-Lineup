@@ -27,7 +27,7 @@ Stop the server with Ctrl+C. Demo data is synthetic; do not use demonstration ac
 - Server-generated request references and persistence of requester, submission time, department, and category label.
 - Citizen-owned request lists and details; department-scoped staff lists and details.
 - Staff request search by reference/title, category/status/assignee filters, and controlled sorting, with the department boundary applied inside the database query.
-- Staff lifecycle transitions with the existing policy, optimistic version check, and atomic status/history persistence.
+- Staff lifecycle transitions with the existing policy, optimistic version check, and atomic status/history persistence. When staff mark a request resolved, its citizen can confirm closure or explain why it remains unresolved and return it to In Progress; no response leaves it Resolved for later follow-up.
 - First-administrator bootstrap that closes after an administrator exists; administrator account/role/deactivation and controlled-category maintenance.
 - Management summaries with date/category/status filters, open/overdue and lifecycle counts, category/status breakdowns, assignee and request age.
 - Signed, expiring HTTP-only session cookies, request-forgery tokens on forms, escaped user content, and current account-status checks on requests.
@@ -42,6 +42,7 @@ The initial category list contains Water and Roads, mapped to their correspondin
 | `lifecycle.py` | Account authentication, request validation/submission/query, transition policy, and SQLite transactions. |
 | `schema.sql` | Accounts, credentials, categories, requests, lifecycle events, constraints, and lookup indexes. |
 | `web.py` | Standard-library WSGI forms, sessions, authorization boundaries, and HTML rendering. |
+| `static/styles.css` | Responsive visual system, accessible interaction states, and reduced-motion-aware animations. |
 | `serve.py` | Local configuration, optional synthetic seed data, and the development HTTP server. |
 | `demo.py` | Offline service demonstration of a committed lifecycle change and requester history read. |
 | `../tests/` | Component, black-box, integration, end-to-end and security regression checks. |

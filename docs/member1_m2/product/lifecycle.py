@@ -67,7 +67,9 @@ class LifecyclePolicy:
         "Submitted": {"Accepted", "Rejected"},
         "Accepted": {"In Progress"},
         "In Progress": {"Resolved"},
-        "Resolved": {"Closed"},
+        # Resolution is a review point: the requester can confirm closure or
+        # send the request back to In Progress with an explanation.
+        "Resolved": {"Closed", "In Progress"},
         "Closed": set(),
         "Rejected": set(),
     }
@@ -80,6 +82,8 @@ class LifecyclePolicy:
             raise InvalidTransition("Explanation must be text")
         if target in {"Rejected", "Resolved"} and not explanation.strip():
             raise InvalidTransition("Rejection and resolution require an explanation")
+        if request["status"] == "Resolved" and target == "In Progress" and not explanation.strip():
+            raise InvalidTransition("Explain why the request is not resolved")
         if target == "Accepted":
             if not assignee or not due_at:
                 raise InvalidTransition("Acceptance requires an assignee and due time")
@@ -624,13 +628,19 @@ class SqliteLifecycleStore:
             request = connection.execute(
                 "SELECT * FROM requests WHERE reference=?", (reference,)
             ).fetchone()
-            if (
-                actor is None
-                or not actor["active"]
-                or actor["role"] != "Staff"
-                or request is None
-                or actor["department"] != request["department"]
-            ):
+            if actor is None or not actor["active"] or request is None:
+                raise Forbidden("Request is not accessible")
+            staff_transition = (
+                actor["role"] == "Staff"
+                and actor["department"] == request["department"]
+            )
+            citizen_review = (
+                actor["role"] == "Citizen"
+                and request["citizen_id"] == actor_id
+                and request["status"] == "Resolved"
+                and target in {"Closed", "In Progress"}
+            )
+            if not (staff_transition or citizen_review):
                 raise Forbidden("Request is not accessible")
             if type(expected_version) is not int or request["version"] != expected_version:
                 raise Conflict("Request changed; reload before retrying")

@@ -8,6 +8,7 @@ import hashlib
 import hmac
 import json
 import math
+from pathlib import Path
 import secrets
 import threading
 import time
@@ -41,21 +42,12 @@ def _page(title, body, nav=""):
     return """<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f4f7fb">
 <title>{title} · CivicConnect</title>
-<style>
-:root{{font-family:system-ui,sans-serif;color:#17302d;background:#f3f7f5}}
-body{{margin:0}}header,main,footer{{max-width:62rem;margin:auto;padding:1rem}}
-header{{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ccd9d4}}
-main{{padding-top:2rem}}.panel,.card{{background:white;border:1px solid #ccd9d4;border-radius:.6rem;padding:1.2rem;margin:1rem 0}}
-form{{display:grid;gap:.8rem;max-width:38rem}}label{{display:grid;gap:.3rem;font-weight:600}}
-input,textarea,select,button{{font:inherit;padding:.65rem;border:1px solid #82958e;border-radius:.35rem}}
-textarea{{min-height:8rem}}button,.button{{background:#145a49;color:white;border:0;cursor:pointer;padding:.7rem 1rem}}
-a{{color:#075d8c}}.error{{border-left:4px solid #a12222;background:#fff2f2;padding:.8rem}}
-.muted{{color:#536761}}.row{{display:flex;gap:1rem;flex-wrap:wrap}}
-footer{{color:#536761;border-top:1px solid #ccd9d4;margin-top:3rem}}
-</style></head><body><header><div><strong>CivicConnect</strong>
-<div class="muted">Service requests and accountable progress</div></div>{nav}</header>
-<main><h1>{title}</h1>{body}</main><footer>CivicConnect request service</footer></body></html>""".format(
+<link rel="stylesheet" href="/static/styles.css">
+</head><body><header class="site-header"><a class="brand" href="/" aria-label="CivicConnect home"><span class="brand-mark" aria-hidden="true">C</span><span class="brand-copy"><strong>CivicConnect</strong>
+<span class="muted">Service requests, moving forward</span></span></a><nav aria-label="Main navigation">{nav}</nav></header>
+<main class="page-shell"><div class="page-heading"><span class="eyebrow">CIVICCONNECT · SERVICE PORTAL</span><h1>{title}</h1></div>{body}</main><footer class="site-footer"><span class="footer-mark" aria-hidden="true">C</span><span>CivicConnect</span><span class="footer-separator">·</span><span>Clear requests. Accountable progress.</span></footer></body></html>""".format(
         title=_e(title), nav=nav, body=body
     )
 
@@ -191,15 +183,22 @@ class CivicConnectWeb:
             raise InvalidTransition("Form submission is invalid") from exc
 
     @staticmethod
-    def _response(start_response, status, body="", headers=None, cookie=None):
+    def _response(
+        start_response,
+        status,
+        body="",
+        headers=None,
+        cookie=None,
+        content_type="text/html; charset=utf-8",
+    ):
         response_headers = [
-            ("Content-Type", "text/html; charset=utf-8"),
+            ("Content-Type", content_type),
             ("Cache-Control", "no-store"),
             ("X-Content-Type-Options", "nosniff"),
             ("Referrer-Policy", "no-referrer"),
             (
                 "Content-Security-Policy",
-                "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+                "default-src 'none'; style-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
             ),
             ("X-Frame-Options", "DENY"),
             ("Permissions-Policy", "camera=(), microphone=(), geolocation=()"),
@@ -208,7 +207,7 @@ class CivicConnectWeb:
             response_headers.extend(headers)
         if cookie:
             response_headers.append(("Set-Cookie", cookie))
-        payload = body.encode("utf-8")
+        payload = body if isinstance(body, bytes) else body.encode("utf-8")
         response_headers.append(("Content-Length", str(len(payload))))
         start_response(status, response_headers)
         return [payload]
@@ -236,7 +235,7 @@ class CivicConnectWeb:
             return (
                 f'<span>{_e(session["account_id"])}</span>'
                 + links
-                + '<form method="post" action="/logout" style="display:inline">'
+                + '<form method="post" action="/logout" class="logout-form">'
                 f'{CivicConnectWeb._hidden_csrf(session)}<button type="submit">Sign out</button></form>'
             )
         return '<a href="/login">Sign in</a> · <a href="/register">Create account</a>'
@@ -456,11 +455,38 @@ class CivicConnectWeb:
                 + '<label>Due date (required when accepting)<input name="due_at" type="datetime-local"></label>'
                 + '<button type="submit">Save update</button></form></section>'
             )
+        elif session.get("role") == "Citizen" and request["status"] == "Resolved":
+            body += (
+                '<section class="panel"><h2>Is the issue resolved?</h2>'
+                '<p>Confirming closes the request. If the problem remains, it will return to the staff queue as In Progress.</p>'
+                '<form method="post" action="/requests/'
+                + _e(request["reference"])
+                + '/transition">'
+                + self._hidden_csrf(session)
+                + f'<input type="hidden" name="version" value="{int(request["version"])}">'
+                + '<label>Tell us what remains unresolved (required if reopening)'
+                '<textarea name="explanation" maxlength="2000"></textarea></label>'
+                + '<button type="submit" name="target" value="Closed">Yes, close request</button>'
+                + '<button type="submit" name="target" value="In Progress">No, it is not resolved</button>'
+                + '</form></section>'
+            )
         return _page("Request details", body, self._nav(session))
 
     def __call__(self, environ, start_response):
         method = environ.get("REQUEST_METHOD", "GET").upper()
         path = environ.get("PATH_INFO", "/")
+        if method == "GET" and path == "/static/styles.css":
+            stylesheet = Path(__file__).with_name("static") / "styles.css"
+            try:
+                contents = stylesheet.read_bytes()
+            except OSError:
+                return self._response(start_response, "404 Not Found", "Stylesheet not found")
+            return self._response(
+                start_response,
+                "200 OK",
+                contents,
+                content_type="text/css; charset=utf-8",
+            )
         session = self._decode_session(environ.get("HTTP_COOKIE"))
         new_session = session is None
         if session is None:
@@ -661,8 +687,8 @@ class CivicConnectWeb:
                     cookie=cookie_header,
                 )
             if reference and method == "POST" and path == f"/requests/{reference}/transition":
-                if session.get("role") != "Staff":
-                    raise Forbidden("Only authorised staff can update request status")
+                if session.get("role") not in {"Staff", "Citizen"}:
+                    raise Forbidden("Only authorised users can update request status")
                 version = form.get("version", "")
                 if not version.isdecimal():
                     raise InvalidTransition("Reload this request before updating it")
