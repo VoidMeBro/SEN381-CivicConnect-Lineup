@@ -1,12 +1,42 @@
-# CivicConnect initial lifecycle application slice
+# CivicConnect application
 
-Run from the parent Member 1 pack directory: `python product/demo.py`.
-Tests: `python -m unittest discover -s tests -v`.
+This application implements a server-rendered citizen request workflow using Python's standard library and SQLite. It runs as one local process; it does not introduce a separate frontend framework or an internal REST interface.
 
-Python 3.11+ and its standard sqlite3 module are sufficient. Verified runtime versions are in evidence/verification.txt. There are no packages to install, secrets, environment variables, external services or network calls. The demo creates and removes its own temporary synthetic database.
+## Start locally
 
-`schema.sql` creates accounts, requests and lifecycle_events, their constraints and history index. `SqliteLifecycleStore.initialise()` applies this idempotent initial schema; no schema upgrade is provided because this is its first revision. `lifecycle.py` contains the coordinator, independent policy and transaction store. `demo.py` is the runnable interface. `tests/test_lifecycle.py` exercises success, denial, rollback and conflict paths.
+Run these commands from `docs/member1_m2` in PowerShell:
 
-The transition contract returns reference/status/version/explanation after commit. Forbidden covers absent or inaccessible requests; InvalidTransition covers invalid state/fields; Conflict requires reloading and revalidating. sqlite3 persistence exceptions propagate after rollback. No failed command reports success. History returns only the active owning citizen's current status and ordered committed events.
+```powershell
+$secret = Read-Host 'Local demonstration password' -AsSecureString
+$env:CIVICCONNECT_DEMO_PASSWORD = [System.Net.NetworkCredential]::new('', $secret).Password
+python product/serve.py --seed-demo
+```
 
-This is a single-process logical architecture with a file-backed SQLite store. The service accepts an authenticated actor ID from its caller; it does not authenticate passwords. Full web UI, networking, deployment and load acceptance are outside this initial slice. Do not expose the CLI actor parameter as an unauthenticated web API.
+Open `http://127.0.0.1:8000`. Synthetic demonstration accounts are `citizen-a`, `citizen-b`, `staff-a`, and `staff-b`; the password is the one entered above. `citizen-a` has a sample request. New citizens can register from the sign-in page.
+
+The local database is created at `data/civicconnect.sqlite3`, which is ignored by Git. The default server binds to loopback. Set `CIVICCONNECT_DB_PATH` to use another local database path, `CIVICCONNECT_HOST` and `CIVICCONNECT_PORT` to change the listener, or `CIVICCONNECT_SESSION_SECRET` to supply a stable local session key. Without that variable, a random process-only key is generated and sessions end when the server stops. Set `CIVICCONNECT_COOKIE_SECURE=true` only when serving over HTTPS.
+
+Stop the server with Ctrl+C. Demo data is synthetic; do not use demonstration accounts or the local development server for real citizen information or public deployment.
+
+## Implemented workflow
+
+- Citizen registration and sign-in with salted PBKDF2 password hashes.
+- Server-side validation of title (5–120 characters), description (10–2,000), location (3–200), and active category.
+- Server-generated request references and persistence of requester, submission time, department, and category label.
+- Citizen-owned request lists and details; department-scoped staff lists and details.
+- Staff lifecycle transitions with the existing policy, optimistic version check, and atomic status/history persistence.
+- Signed, expiring HTTP-only session cookies, request-forgery tokens on forms, escaped user content, and current account-status checks on requests.
+
+The initial category list contains Water and Roads, mapped to their corresponding staff departments. Category/account administration and management reporting remain outside this application slice. Usability, performance, availability, deployment, and production-scale acceptance require separate evidence.
+
+## Code layout
+
+| File | Responsibility |
+|---|---|
+| `lifecycle.py` | Account authentication, request validation/submission/query, transition policy, and SQLite transactions. |
+| `schema.sql` | Accounts, credentials, categories, requests, lifecycle events, constraints, and lookup indexes. |
+| `web.py` | Standard-library WSGI forms, sessions, authorization boundaries, and HTML rendering. |
+| `serve.py` | Local configuration, optional synthetic seed data, and the development HTTP server. |
+| `demo.py` | Offline service demonstration of a committed lifecycle change and requester history read. |
+
+`SqliteLifecycleStore.initialise()` creates the current schema and adds missing request-detail columns to an earlier database. The migration preserves earlier request rows and fills new fields with legacy defaults. State and lifecycle events remain committed in a single transaction. `history()` allows a citizen to read their own request and staff to read requests in their department.
