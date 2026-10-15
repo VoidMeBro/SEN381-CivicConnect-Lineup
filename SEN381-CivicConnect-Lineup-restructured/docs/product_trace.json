@@ -1,0 +1,42 @@
+[
+  {
+    "stage": "Requirement",
+    "decision": "FR-13 controls transitions; FR-05 saves remarks, actor and time; FR-08 exposes meaningful requester feedback.",
+    "evidence": "baseline_m1.json"
+  },
+  {
+    "stage": "ASR and constraint",
+    "decision": "ASR-L01 mandatory status/history atomicity, ASR-L02 ownership and staff-department access, ASR-L03 stale-update rejection. NFR-02 and the M1 no-budget constraint apply.",
+    "evidence": "Product_Trace.md"
+  },
+  {
+    "stage": "Architecture responsibility",
+    "decision": "RequestLifecycleCoordinator receives an in-process command, LifecyclePolicy checks the transition, and SqliteLifecycleStore owns atomic persistence and authorised history reads.",
+    "evidence": "product/lifecycle.py"
+  },
+  {
+    "stage": "Data decision",
+    "decision": "Accounts, requests and lifecycle_events; unique reference/version, foreign keys, status constraints, one write transaction and a consistent read snapshot.",
+    "evidence": "product/schema.sql"
+  },
+  {
+    "stage": "Design and interface",
+    "decision": "transition(actor_id, reference, target, expected_version, explanation, assignee, due_at); history(actor_id, reference). Explicit Forbidden, Conflict and InvalidTransition failures.",
+    "evidence": "product/lifecycle.py"
+  },
+  {
+    "stage": "Technology and ADR",
+    "decision": "ADR-M1-02 uses Python 3.12.14 and bundled SQLite 3.53.1 for this executable reference slice. ADR-M2-01/02/03 supply the approved domain decisions.",
+    "evidence": "ADRs.md"
+  },
+  {
+    "stage": "Application artefact",
+    "decision": "The real service commits Submitted to Accepted, then a separate connection reads the same status and explanation for the owning citizen.",
+    "evidence": "product/demo.py"
+  },
+  {
+    "stage": "Initial verification",
+    "decision": "20 lifecycle/persistence/access tests plus 15 traceability tests pass. Demo output records the saved event and an actual local post-commit read time.",
+    "evidence": "evidence/verification.txt"
+  }
+]

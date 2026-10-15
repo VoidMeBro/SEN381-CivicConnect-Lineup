@@ -1,0 +1,24 @@
+{
+  "environment": "staging-simulated",
+  "description": "Isolated, clean-install simulation of a single-host staging server. No real hosting account was available in the M3 evidence run; see README_Staging.md for the gap.",
+  "runtime": {"python_min": "3.11", "database": "sqlite3 (bundled with Python)"},
+  "paths": {"release_root": "releases", "current_link": "current", "data_dir": "data", "backup_dir": "backups", "log_dir": "logs"},
+  "release_files": ["product/lifecycle.py", "product/schema.sql", "product/demo.py"],
+  "controls": {
+    "synthetic_data_only": true,
+    "secrets_required": 0,
+    "environment_variables_required": ["CIVICCONNECT_ENV=staging"],
+    "network_required": false,
+    "timezone": "Africa/Johannesburg",
+    "sqlite_busy_timeout_seconds": 5
+  },
+  "performance_profile_nfr03": {
+    "virtual_users": 50,
+    "stored_requests": 10000,
+    "think_time_seconds": 5,
+    "warmup_seconds": 60,
+    "measured_seconds": 600,
+    "p95_target_seconds": 3.0,
+    "max_failure_rate": 0.01
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "trace": "FR-13 -> ASR-L01 -> coordinator/policy -> atomic SQLite transaction -> in-process interface -> ADR-M1-02 -> lifecycle.py -> tests/test_lifecycle.py",
+  "transition": {
+    "reference": "CC-DEMO-001",
+    "status": "Accepted",
+    "version": 1,
+    "explanation": "Water team accepted the request."
+  },
+  "requester_history": {
+    "reference": "CC-DEMO-001",
+    "status": "Accepted",
+    "version": 1,
+    "events": [
+      {
+        "from_status": "Submitted",
+        "to_status": "Accepted",
+        "actor": "staff-a",
+        "occurred_at": "2026-09-24T09:00:00+00:00",
+        "explanation": "Water team accepted the request.",
+        "version": 1
+      }
+    ]
+  },
+  "local_post_commit_read_seconds": 0.000924,
+  "scope": "Executed local service path using synthetic data. Browser authentication, production stack and deployed 5/60-second UI targets are outside this run."
+}
