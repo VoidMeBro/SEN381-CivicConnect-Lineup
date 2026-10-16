@@ -1,0 +1,24 @@
+CivicConnect M3 — Member 2 local test execution summary
+===========================================================
+
+Execution date: 13 October 2026
+Environment: Windows, Python 3.15.0
+Working directory: docs/member1_m2
+
+Command:
+python -m unittest discover -s tests -p "test_*.py" -v
+
+Final result:
+Ran 37 tests in 9.439 seconds
+37 passed
+0 failed
+0 errors
+Result: OK
+
+Run history and interpretation:
+Earlier attempts did not pass: six tests first failed because the local environment lacked the tzdata dependency. After it was installed, a repository tooling test also found files inside the local .venv folder. The source scan was then changed to exclude .venv. The final run recorded above completed successfully.
+
+The original PowerShell capture piped Python's output through Out-File. PowerShell displayed the test runner's progress stream as a NativeCommandError even though unittest completed with the final summary above. That was a PowerShell output-formatting issue, not a failing final test run. This file records the final result without the misleading wrapper.
+
+Evidence boundary:
+This is a local run on Python 3.15.0. The documented baseline is Python 3.12, and this run does not establish compatibility with Python 3.12 or production readiness. GitHub Actions passed for the tested commit d88864e. The current PR checks show the status of the later evidence-only update.

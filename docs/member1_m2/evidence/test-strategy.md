@@ -11,7 +11,7 @@ The suite exercises the implemented local CivicConnect release candidate against
 | Unit / component | 5 | `test_component.py` (5) | Transition policy, required fields, illegal state, atomic rollback |
 | Black-box functional | 5 | `test_blackbox.py` (5) | Equivalence classes and boundary values for title, description, location and category |
 | API / integration | 3 | `test_integration.py` (6) plus route tests | Service-to-SQLite commit, authorization, assignment, sorting and date filtering |
-| E2E / system | 2 | `test_e2e.py` (2) | Citizen-to-staff-to-management and full lifecycle/requester feedback paths |
+| E2E / system | 2 | `test_e2e.py` (4) | Citizen-to-staff-to-management, full lifecycle/requester feedback and unauthorised-action paths |
 | Security / feature regression | 15 | `test_features.py` (9), `test_web_security.py` (6) | Roles, ownership, CSRF, HTML escaping, admin bootstrap, reporting and data migration |
 | CI / repository tooling | 2 | `test_tools.py` | Verify required CI stages are configured and generated local databases/keys stay outside source evidence |
 
@@ -34,7 +34,7 @@ Overlap between classes is intentional where a case proves a critical path at mo
 
 ## Reproduction
 
-From `docs/member1_m2` with Python 3.12:
+From `docs/member1_m2`. The local Member 2 test execution on 13 October 2026 used Python 3.15.0. The documented project baseline is Python 3.12; compatibility with that version was not established by this local run.
 
 ```powershell
 python -m compileall -q product tests
@@ -43,3 +43,25 @@ python product/performance_smoke.py
 ```
 
 The GitHub Actions workflow installs Bandit, runs it over `product/` (excluding assertion-only demo checks), and runs Gitleaks against the checked-out repository. A clean scanner result is bounded evidence, not proof that vulnerabilities are absent. The current offline execution did not include CI-hosted scanner results.
+
+## Member 2 local test execution
+
+Execution date: 13 October 2026
+
+Environment: Windows, Python 3.15.0
+
+Command:
+`python -m unittest discover -s tests -p "test_*.py" -v`
+
+Results:
+- Total tests: 37
+- Passed: 37
+- Failed: 0
+- Errors: 0
+- Execution time: 9.439 seconds
+
+Evidence: `evidence/member2-test-results.txt`
+
+During initial execution, six tests failed because the local Python environment lacked the `tzdata` dependency. After installing the dependency, the remaining repository tooling test failed because it scanned the local `.venv` directory. The test was updated to exclude `.venv` from the source-file scan.
+
+After these changes, the full suite passed. The results demonstrate successful local verification of the exercised paths, not production readiness or successful GitHub CI execution.
