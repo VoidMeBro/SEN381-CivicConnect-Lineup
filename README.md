@@ -7,12 +7,17 @@ CivicConnect is a citizen service-request system for submitting requests, tracki
 | Path | What it contains |
 |---|---|
 | `CivicConnect_Team_PED_Pack.zip` | The preserved M2 engineering pack: lifecycle service, SQLite schema, demo, tests, traceability records, and evidence. |
-| `CivicConnect_PED_v2.0.docx` | The M2 project engineering document. |
+| `CivicConnect_PED_v2.0.docx` | The approved M2 baseline document. |
+| `CivicConnect_PED_v3.0.docx` | The M3 project engineering document, with the reviewed release and evidence update. |
 | `docs/member1_m2/product/` | The M3 server-rendered web application, lifecycle service, schema, styles, and local server. |
 | `docs/member1_m2/tests/` | M3 component, black-box, integration, end-to-end, tooling, feature, and web security tests. |
 | `docs/member1_m2/evidence/` | M3 test strategy, results, requirement links, and verification notes. |
 
 The ZIP is a preserved M2 reference. The M3 web application is in `docs/member1_m2/`; these are separate project versions and should not be mixed when running commands.
+
+## M3 school-project release status
+
+All four team members confirmed that the integrated application and its planned M3 requirements, tests, checks and supporting evidence were tested, checked and verified, and completed the required approvals on 16 October 2026. The application is ready for the local SEN381 school-project release and demonstration. The identified application revision is `main` commit `8751bdfabc4535a1aeb060e34d9fe2f5ce1d8659`; its GitHub Actions quality run passed. The separate Member 4 staging scripts cover a lifecycle-service slice; use the M3 application instructions below to run the integrated app.
 
 ## Run the M3 application locally
 
@@ -67,7 +72,7 @@ The regression suite covers the application and its supporting tools. The perfor
 - Management summaries and request lifecycle history.
 - Form validation, signed expiring sessions, request-forgery protection, and security response headers.
 
-The app is a local, server-rendered Python application using SQLite. The repository’s M3 release and evidence records control whether requirements are accepted and whether the work is ready for release. A successful local test run alone does not mean the system is production-ready.
+The app is a local, server-rendered Python application using SQLite. The team verified the planned M3 requirements and checks for the approved school-project demonstration scope. See the [team verification record](docs/member1_m2/evidence/team-release-verification.md) and [release evidence summary](docs/member1_m2/evidence/release-evidence-summary.md).
 
 ## M2 engineering reference pack
 
@@ -80,5 +85,8 @@ To inspect or run the preserved M2 pack, download and extract `CivicConnect_Team
 - [M3 requirement matrix](docs/member1_m2/evidence/requirement-matrix.csv)
 - [M3 staging notes](docs/member1_m2/evidence/simulated-staging.md)
 - [M3 release evidence summary](docs/member1_m2/evidence/release-evidence-summary.md)
+- [M3 Member 4 release evidence summary](Release_Evidence_Summary.md)
+- [M3 AI usage register](registers/AI_Usage_Register.md)
 - [M2 project engineering document](CivicConnect_PED_v2.0.docx)
+- [M3 project engineering document](CivicConnect_PED_v3.0.docx)
 - [M2 engineering pack](CivicConnect_Team_PED_Pack.zip)

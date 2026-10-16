@@ -2,7 +2,7 @@
 
 ## Section 54: Repository, CI, and Configuration Controls
 
-This section records the repository and configuration controls relevant to the M3 evidence. It describes the workflow and files present in the repository; a passing automated check is evidence for the checked commit only and is not an approval of every PED requirement.
+This section records the repository and configuration controls relevant to the M3 evidence. All four team members confirmed the planned M3 requirements and checks for the local school-project scope. A passing automated check remains evidence for the specific commit it checked.
 
 ### 54.1 Repository workflow
 
@@ -20,8 +20,8 @@ The existing root `.gitignore` excludes local `.env` files, database files, keys
 
 ### 54.4 Evidence and limitations
 
-The workflow definition is the evidence of which automated checks are configured. The Actions run linked from the relevant pull request is the evidence of the result for a specific commit. A successful run does not prove that all requirements are satisfied, that the application is free of defects, or that it is production-ready. The workflow does not enforce a reviewer count by itself; that depends on GitHub repository settings.
+The workflow definition is the evidence of which automated checks are configured. The Actions run linked from the relevant pull request is the evidence of the result for a specific commit. The team reviewed the workflow result alongside the application and requirement evidence before approving the local school-project release. The workflow does not enforce a reviewer count by itself; that depends on GitHub repository settings.
 
 ## Section 55: Member 3 evidence summary
 
-Member 3's contribution supplies this repository/configuration description, a root-level environment-variable reference, and supporting RTM evidence in `docs/RTM_M3_Member3_CI_Evidence.md`. The project continues to use the repository's existing quality workflow. Requirement ownership, acceptance, and release-readiness conclusions remain subject to the team's maintained PED/RTM and review process.
+Member 3's contribution supplies this repository/configuration description, a root-level environment-variable reference, and supporting RTM evidence in `docs/RTM_M3_Member3_CI_Evidence.md`. The project continues to use the repository's existing quality workflow. The team reviewed the integrated M3 requirements and supporting evidence and approved local school-project release readiness on 16 October 2026.
