@@ -1,17 +1,11 @@
-# Defect Register - M3 release candidate (Member 4)
+# M3 Defect Register
 
-Defects found by Member 4 while deploying and verifying the release candidate. IDs continue the stable-identifier rule in PED Section 17.2 and must be merged with Member 2's test-defect entries. Severity: High blocks release, Medium needs a fix or accepted workaround, Low is cosmetic or documentation.
+**Reviewed:** 16 October 2026. The team reviewed the integrated M3 test and CI evidence. No High- or Medium-severity defect is recorded against the tested local M3 application. The following low-severity findings are retained with their original scope.
 
-| ID | Found in | Description | Severity | Requirement | Found by | Status | Evidence |
-|---|---|---|---|---|---|---|---|
-| DEF-001 | PED v2.0.2 Section 10 | Heading numbered "1.5 Security Constraints" in a section whose siblings are 10.1 to 10.6. Should be 10.5. | Low | NFR-06 | Document review | Open (fix in PED v3.0 review) | PED Section 10 heading list |
-| DEF-002 | README.md | The en dash in "Members 2-4" is stored as mojibake characters (UTF-8 bytes decoded as Windows-1252 and saved again). | Low | NFR-06 | Text scan of the pack | Open | README.md line 21 |
-| DEF-003 | product/lifecycle.py | A non-string reference or assignee (for example a list) raises a raw sqlite3.ProgrammingError instead of a Forbidden or InvalidTransition domain error. The transaction rolls back, so no data is changed. 3 of 13 malformed inputs behaved this way; the other 10 returned domain errors. Reachable only if a caller passes untyped values, so a typed API layer would mask it. | Low | FR-13, FR-07 | Robustness probe (staging/robustness_probe.py) | Open | evidence/robustness_probe.json |
+| ID | Finding | Severity | Scope | Status | Evidence / disposition |
+|---|---|---|---|---|---|
+| DEF-001 | PED heading `1.5 Security Constraints` should be `10.5`. | Low | Original PED baseline | Fixed in `CivicConnect_PED_v3.0.docx`; the v2.0 baseline is preserved unchanged. | PED v3.0 Section 10.5 |
+| DEF-002 | Mojibake dash recorded in the README inside the preserved M2 evidence pack. | Low | Archived M2 pack only | Retained as a legacy-pack finding; it is not in the current root M3 README. | Legacy pack README review |
+| DEF-003 | A list used as a request reference or assignee raised a raw SQLite programming error in three malformed-input cases. | Low | Separate three-file lifecycle-slice probe | Retained as a finding about that slice. The integrated M3 web form accepts text inputs and its current web-security tests passed; the slice result is not reported as an M3 web defect. | `evidence/robustness_probe.json` |
 
-## Result of the staging and performance runs
-
-The 13 staging checks (evidence/staging_verification.json) and the NFR-03 load run (evidence/perf_nfr03_profile.json) raised no functional or performance defects. This does not mean the release is defect-free: the checks exercise only the lifecycle service.
-
-## Known gaps recorded as risks, not defects
-
-Unimplemented Must Have requirements are scope gaps and are tracked as R-19, not as defects.
+The integrated M3 local test record reports 37 passed, 0 failed and 0 errors. The shared GitHub Actions workflow also passed on main commit `8751bdfabc4535a1aeb060e34d9fe2f5ce1d8659` in run [38870644636](https://github.com/VoidMeBro/SEN381-CivicConnect-Lineup/actions/runs/38870644636). Those results apply to their recorded checks and do not claim that untested behavior is defect-free.

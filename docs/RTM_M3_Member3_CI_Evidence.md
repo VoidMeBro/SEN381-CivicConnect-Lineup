@@ -22,4 +22,4 @@ This document provides supporting evidence rows for team review and transfer int
 
 ## Limits
 
-These rows describe configured checks and file-level evidence. They do not independently confirm PED acceptance, a required reviewer count, production readiness, or successful execution for a commit unless the corresponding Actions run shows success.
+These rows describe configured checks and file-level evidence. All four team members reviewed the integrated M3 requirements and evidence and approved local school-project readiness on 16 October 2026. The Actions run applies to the specific commit it checked; hosted production readiness is outside the approved scope.
