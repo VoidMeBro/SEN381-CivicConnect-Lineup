@@ -1,0 +1,220 @@
+{
+  "title": "CivicConnect local website staging and load test",
+  "run_started_local": "2026-10-16T10:34:29.829084+02:00",
+  "run_completed_utc": "2026-10-16T08:45:22.409277+00:00",
+  "result": "FAIL",
+  "source": {
+    "repository_checkout": "Repository checkout",
+    "branch": "feat/member-4/m3",
+    "commit": "4a8646bc7ea61e4d5bb05f35413bf849e83dabfe",
+    "working_tree_note": "The PDF artifact is included in this evidence pull request; tested application source files were read from the source commit noted above.",
+    "main_merge_commit": "8d495833d58e5d6c24efaefd3e11752901b63616",
+    "main_relation": "The tested source commit is the second parent of the current main merge commit for PR #18."
+  },
+  "environment": {
+    "host": "127.0.0.1 (loopback only)",
+    "server": "CivicConnect product WSGI app using the same Python wsgiref.simple_server implementation as product/serve.py",
+    "database": "isolated temporary SQLite database",
+    "python": "3.12.14",
+    "tls": false,
+    "external_network": false
+  },
+  "dataset": {
+    "synthetic_accounts": 50,
+    "synthetic_requests_before_smoke_submit": 10000,
+    "requests_per_account": 200,
+    "extra_smoke_submission": 1
+  },
+  "staging_checks": [
+    {
+      "name": "login page over HTTP",
+      "passed": true,
+      "detail": "HTTP 200; HTML bytes=1540"
+    },
+    {
+      "name": "stylesheet served over HTTP",
+      "passed": true,
+      "detail": "HTTP 200; bytes=9407"
+    },
+    {
+      "name": "50 distinct synthetic accounts authenticate over HTTP",
+      "passed": true,
+      "detail": "authenticated=50"
+    },
+    {
+      "name": "authenticated request list renders seeded records",
+      "passed": true,
+      "detail": "HTTP 200; HTML bytes=56204; records for account=200"
+    },
+    {
+      "name": "owner can open request detail",
+      "passed": true,
+      "detail": "HTTP 200; HTML bytes=1798"
+    },
+    {
+      "name": "another citizen is denied request detail",
+      "passed": true,
+      "detail": "HTTP 403; expected HTTP 403"
+    },
+    {
+      "name": "state-changing request without CSRF is rejected",
+      "passed": true,
+      "detail": "HTTP 400; expected HTTP 400"
+    },
+    {
+      "name": "citizen submits and reopens a request through the website",
+      "passed": true,
+      "detail": "form=HTTP 200; submit=HTTP 303; follow-up=HTTP 200; reference=CC-20261016-316C9C96"
+    },
+    {
+      "name": "website remains responsive after load",
+      "passed": true,
+      "detail": "HTTP 200"
+    }
+  ],
+  "warmup": {
+    "duration_target_seconds": 60,
+    "duration_actual_seconds": 56.032,
+    "samples": 600,
+    "failures": 88
+  },
+  "load_profile": {
+    "virtual_users": 50,
+    "measurement_target_seconds": 600,
+    "measurement_actual_seconds": 596.546,
+    "interval_seconds_per_user": 5,
+    "samples_target": 6000,
+    "samples": 6000,
+    "successful_samples": 5353,
+    "failed_samples": 647,
+    "failure_rate_percent": 10.78333,
+    "throughput_requests_per_second": 10.058,
+    "latency_ms": {
+      "min": 5.112,
+      "median": 533.63,
+      "p95": 1051.639,
+      "p99": 1547.513,
+      "max": 2073.814
+    },
+    "acceptance_criteria": {
+      "p95_max_ms": 3000,
+      "failure_rate_less_than_percent": 1.0,
+      "minimum_samples": 6000
+    },
+    "failed_examples": [
+      {
+        "user": 20,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 10,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 38,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 42,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 15,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 28,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 37,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 35,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 27,
+        "tick": 1,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 5,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 4,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 43,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 18,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 13,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 8,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 40,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 29,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 30,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 48,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      },
+      {
+        "user": 2,
+        "tick": 2,
+        "error": "URLError(ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"
+      }
+    ],
+    "arrival_pattern": "All 50 virtual users started each 5-second interval together (synchronized burst)."
+  },
+  "limitations": [
+    "Single local Windows host with loopback HTTP; no TLS, WAN/network latency, deployment reverse proxy, multi-instance scaling, or third-party services were included.",
+    "The bundled server implementation is single-process and single-threaded, matching the repository's local serve.py configuration.",
+    "All load data and accounts are synthetic; the test does not establish production capacity or availability."
+  ],
+  "artifacts": {
+    "sample_csv": "load_samples.csv",
+    "json_report": "staging_load_report.json",
+    "markdown_report": "staging_load_report.md",
+    "database": "Temporary synthetic SQLite database; not included"
+  },
+  "finding": "The measured p95 met its threshold, but the failure-rate gate failed: 647 samples ended in connection resets during synchronized 50-user bursts. The server uses the repository local single-threaded WSGI configuration; synchronized arrivals may have exceeded its pending-connection queue. Investigate before claiming 50-user load acceptance."
+}
