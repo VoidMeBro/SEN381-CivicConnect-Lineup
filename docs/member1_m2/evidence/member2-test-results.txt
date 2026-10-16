@@ -1,103 +1,24 @@
-﻿python : test_FR07_description_above_maximum_is_rejected 
-(test_blackbox.BlackBoxTests.test_FR07_description_above_maximum_is_rejected) 
-... ok
-At line:1 char:1
-+ python -m unittest discover -s tests -p "test_*.py" -v 2>&1 | Out-Fil ...
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (test_FR07_descr...ejected) ... ok: 
-   String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
-test_FR07_inactive_category_is_rejected 
-(test_blackbox.BlackBoxTests.test_FR07_inactive_category_is_rejected) ... ok
-test_FR07_location_below_minimum_is_rejected 
-(test_blackbox.BlackBoxTests.test_FR07_location_below_minimum_is_rejected) ... 
-ok
-test_FR07_title_at_minimum_is_accepted 
-(test_blackbox.BlackBoxTests.test_FR07_title_at_minimum_is_accepted) ... ok
-test_FR07_title_below_minimum_is_rejected 
-(test_blackbox.BlackBoxTests.test_FR07_title_below_minimum_is_rejected) ... ok
-test_invalid_transition_keeps_request_and_event_count_unchanged (test_component.
-ComponentTests.test_invalid_transition_keeps_request_and_event_count_unchanged) 
-... ok
-test_transition_policy_rejects_due_date_before_submission (test_component.Compon
-entTests.test_transition_policy_rejects_due_date_before_submission) ... ok
-test_transition_policy_rejects_skipped_status 
-(test_component.ComponentTests.test_transition_policy_rejects_skipped_status) 
-... ok
-test_transition_policy_requires_acceptance_assignee_and_due_time (test_component
-.ComponentTests.test_transition_policy_requires_acceptance_assignee_and_due_time
-) ... ok
-test_transition_policy_requires_rejection_reason (test_component.ComponentTests.
-test_transition_policy_requires_rejection_reason) ... ok
-test_E2E_citizen_can_reopen_unresolved_work_then_confirm_closure (test_e2e.EndTo
-EndTests.test_E2E_citizen_can_reopen_unresolved_work_then_confirm_closure) ... 
-ok
-test_E2E_citizen_to_staff_to_management_journey 
-(test_e2e.EndToEndTests.test_E2E_citizen_to_staff_to_management_journey) ... ok
-test_E2E_other_citizen_cannot_confirm_or_reopen_resolved_request (test_e2e.EndTo
-EndTests.test_E2E_other_citizen_cannot_confirm_or_reopen_resolved_request) ... 
-ok
-test_E2E_staff_finishes_lifecycle_and_citizen_sees_completion (test_e2e.EndToEnd
-Tests.test_E2E_staff_finishes_lifecycle_and_citizen_sees_completion) ... ok
-test_existing_accounts_and_foreign_keys_survive_management_role_migration (test_
-features.ExistingSchemaMigrationTests.test_existing_accounts_and_foreign_keys_su
-rvive_management_role_migration) ... ok
-test_FR06_administrator_creates_and_updates_accounts (test_features.FeatureTests
-.test_FR06_administrator_creates_and_updates_accounts) ... ok
-test_FR06_last_active_administrator_cannot_be_removed (test_features.FeatureTest
-s.test_FR06_last_active_administrator_cannot_be_removed) ... ok
-test_FR06_non_admin_cannot_manage_accounts 
-(test_features.FeatureTests.test_FR06_non_admin_cannot_manage_accounts) ... ok
-test_FR09_management_summary_and_role_gate 
-(test_features.FeatureTests.test_FR09_management_summary_and_role_gate) ... ok
-test_FR09_open_and_overdue_definitions 
-(test_features.FeatureTests.test_FR09_open_and_overdue_definitions) ... ok
-test_FR10_category_retirement_preserves_request_label (test_features.FeatureTest
-s.test_FR10_category_retirement_preserves_request_label) ... ok
-test_FR11_staff_search_is_department_scoped_and_literal (test_features.FeatureTe
-sts.test_FR11_staff_search_is_department_scoped_and_literal) ... ok
-test_initial_admin_setup_is_closed_after_admin_creation (test_features.FeatureTe
-sts.test_initial_admin_setup_is_closed_after_admin_creation) ... ok
-test_FR09_report_date_bounds_include_end_date_and_exclude_later_records (test_in
-tegration.IntegrationTests.test_FR09_report_date_bounds_include_end_date_and_exc
-lude_later_records) ... ok
-test_FR11_due_date_sort_places_earliest_due_first (test_integration.IntegrationT
-ests.test_FR11_due_date_sort_places_earliest_due_first) ... ok
-test_FR11_inactive_assignee_filter_is_rejected (test_integration.IntegrationTest
-s.test_FR11_inactive_assignee_filter_is_rejected) ... ok
-test_FR11_username_assignee_filter_maps_to_account_id_safely (test_integration.I
-ntegrationTests.test_FR11_username_assignee_filter_maps_to_account_id_safely) 
-... ok
-test_FR12_assignment_to_another_department_is_rejected_without_change (test_inte
-gration.IntegrationTests.test_FR12_assignment_to_another_department_is_rejected_
-without_change) ... ok
-test_FR13_committed_transition_updates_both_current_state_and_history (test_inte
-gration.IntegrationTests.test_FR13_committed_transition_updates_both_current_sta
-te_and_history) ... ok
-test_ci_compiles_tests_and_runs_all_required_check_categories (test_tools.Toolin
-gTests.test_ci_compiles_tests_and_runs_all_required_check_categories) ... ok
-test_current_sources_contain_no_committed_database_or_private_key (test_tools.To
-olingTests.test_current_sources_contain_no_committed_database_or_private_key) 
-... ok
-test_admin_setup_requires_private_token_and_closes_after_first_admin (test_web_s
-ecurity.WebSecurityTests.test_admin_setup_requires_private_token_and_closes_afte
-r_first_admin) ... ok
-test_citizen_submission_staff_lifecycle_and_requester_history (test_web_security
-.WebSecurityTests.test_citizen_submission_staff_lifecycle_and_requester_history)
- ... ok
-test_cross_citizen_denial_csrf_and_html_escaping (test_web_security.WebSecurityT
-ests.test_cross_citizen_denial_csrf_and_html_escaping) ... ok
-test_e2e_admin_configures_and_citizen_submits_staff_accepts_management_reports (
-test_web_security.WebSecurityTests.test_e2e_admin_configures_and_citizen_submits
-_staff_accepts_management_reports) ... ok
-test_existing_administrator_keeps_bootstrap_endpoint_closed (test_web_security.W
-ebSecurityTests.test_existing_administrator_keeps_bootstrap_endpoint_closed) 
-... ok
-test_staff_and_citizen_cannot_open_admin_routes (test_web_security.WebSecurityTe
-sts.test_staff_and_citizen_cannot_open_admin_routes) ... ok
+CivicConnect M3 — Member 2 local test execution summary
+===========================================================
 
-----------------------------------------------------------------------
-Ran 37 tests in 9.439s
+Execution date: 13 October 2026
+Environment: Windows, Python 3.15.0
+Working directory: docs/member1_m2
 
-OK
+Command:
+python -m unittest discover -s tests -p "test_*.py" -v
+
+Final result:
+Ran 37 tests in 9.439 seconds
+37 passed
+0 failed
+0 errors
+Result: OK
+
+Run history and interpretation:
+Earlier attempts did not pass: six tests first failed because the local environment lacked the tzdata dependency. After it was installed, a repository tooling test also found files inside the local .venv folder. The source scan was then changed to exclude .venv. The final run recorded above completed successfully.
+
+The original PowerShell capture piped Python's output through Out-File. PowerShell displayed the test runner's progress stream as a NativeCommandError even though unittest completed with the final summary above. That was a PowerShell output-formatting issue, not a failing final test run. This file records the final result without the misleading wrapper.
+
+Evidence boundary:
+This is a local run on Python 3.15.0. The documented baseline is Python 3.12, and this run does not establish compatibility with Python 3.12 or production readiness. GitHub Actions passed for the tested commit d88864e. The current PR checks show the status of the later evidence-only update.
