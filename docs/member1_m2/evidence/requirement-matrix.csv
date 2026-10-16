@@ -1,0 +1,23 @@
+*** Begin Patch
+*** Add File: docs/member1_m2/evidence/requirement-matrix.csv
++Source,Requirement,Behavior / evidence,Verification,Status and boundary
++Master Brief section 3,Requester submits and categorises,Authenticated citizen request form with validated fields and active controlled category,tests/test_blackbox.py; tests/test_e2e.py,Implemented in local candidate
++Master Brief section 3,Requester current status and history,Owned request list/details with persisted lifecycle event feedback,tests/test_web_security.py; tests/test_e2e.py,Implemented for exercised paths
++Master Brief section 3,Staff authorised queue and full details,Department-scoped search/filter/sort and detail route,tests/test_features.py; tests/test_integration.py; browser check,Implemented for exercised paths
++Master Brief section 3,Staff assignment/status/action feedback,Department-eligible assignee and controlled transactional status/history,tests/test_component.py; tests/test_integration.py; tests/test_e2e.py,Implemented for exercised paths
++Master Brief section 3,Management oversight,Date/category/status report with open overdue resolved closed category status assignee and age,tests/test_features.py; tests/test_integration.py; tests/test_e2e.py,Implemented for local report scope
++M2 PED,FR-01 to FR-13,Product routes and lifecycle implementation,Test strategy links every feature to tests,Implemented candidate; all requirements need team acceptance
++M2 PED,NFR-01 usability,No five-person first-time user study,No usability evidence,Unverified
++M2 PED,NFR-02 security and access,Role/ownership boundaries CSRF escaping throttling admin setup,tests/test_web_security.py; Bandit/Gitleaks configured,Local tests pass; hosted scanner result pending
++M2 PED,NFR-03 performance,10,001 records and 50 one-time simultaneous lookups,product/performance_smoke.py,Observed p95 14.5ms zero failures on one local run; full ten-minute workload unverified
++M2 PED,NFR-04 availability,20 weekday business-hour monitoring not implemented,No probe record,Unverified
++M2 PED,NFR-05 data quality,Server field/category validation and boundary cases,tests/test_blackbox.py,Implemented in tested cases
++M2 PED,NFR-06 traceability,Requirement-to-code/test index and test strategy,docs/member1_m2/evidence/test-strategy.md; this matrix,Partial; controlled PED v3 and RTM continuation required
++M2 PED,NFR-07 scalability,Indexed SQLite and 10,001-record check,product/performance_smoke.py,50,000-row/100-user load target unverified
++M3,CI and quality gate,GitHub Actions compile tests load Bandit and Gitleaks,.github/workflows/quality.yml,Configured; final GitHub run result pending
++M3,Test mix,5 component 5 black-box 5 integration 2 E2E plus security regressions,docs/member1_m2/tests/,Run result must be attached to exact final commit
++M3,Staging/test environment,Isolated local simulation and instructions,docs/member1_m2/evidence/simulated-staging.md,Available for assessor-guided local demonstration; no hosted URL
++M3,Release readiness,Conditional local-candidate judgement with limitations,docs/member1_m2/evidence/release-evidence-summary.md,Not production-ready; controlled PED and sign-off pending
++Assignment 3,Threat-based verification and scanner limits,Security design review plus role/ownership/CSRF/XSS cases; static and secret scans configured,tests/test_web_security.py; CI workflow,Targeted evidence; no penetration test or proof of absence
++Master Brief,GitHub governed branch/PR review,Feature branch and existing PR workflow,Git history and existing PR,Independent approvals and merge remain separate review gates
+*** End Patch

@@ -1,0 +1,12 @@
+# ADR-M3-01 Requester review after resolution
+
+- **Status:** Implemented in the feature branch; team review and approval pending.
+- **Date:** 2026-10-13.
+- **Context:** The M2 lifecycle allowed a request to move from Resolved to Closed. The implemented interface did not give the requester a direct way to report that the reported fix had not solved the problem. This weakens the requester feedback and accountability goals in Master Project Brief section 3 and the lifecycle/history requirements in the M2 PED.
+- **Decision for this implementation:** Treat Resolved as awaiting requester review. The owner of the request may confirm the outcome, which moves it to Closed, or report that the issue remains, which returns it to In Progress. Reopening requires an explanation. If the requester takes no action, the request remains Resolved; the application does not infer confirmation or silently close it. Staff retain their existing authorised lifecycle controls.
+- **Access and integrity controls:** The store permits this requester action only for an active Citizen account that owns the request, only while its status is Resolved, and only for Closed or In Progress. The web form uses the existing CSRF token. The existing expected-version check and single transaction protect the status update and history event from stale or partial writes.
+- **Alternatives considered:** Keep staff-only closure, automatically close after a time limit, or require requester confirmation. Automatic closure was not selected because no approved response window or reminder channel exists. Leaving a request Resolved without a response avoids recording an unconfirmed outcome as closed.
+- **Consequences and limitations:** Requesters gain an auditable confirmation/reopen action. Reopened requests return to the department queue with the citizen's explanation. Unanswered resolutions may remain in Resolved and need staff follow-up; notifications, reminders, and an agreed review deadline remain deferred. No claim is made that this policy has team approval.
+- **Verification:** End-to-end tests cover requester reopening, confirmation, and denial of another citizen's attempt. Results must be recorded against the exact PR commit after CI completes.
+- **Related implementation:** `docs/member1_m2/product/lifecycle.py`, `docs/member1_m2/product/web.py`, and `docs/member1_m2/tests/test_e2e.py`.
+- **Review and approval:** Pending. Do not treat this implementation record as a substitute for the team's review of its effect on the M2 baseline or the authoritative PED/RTM.
