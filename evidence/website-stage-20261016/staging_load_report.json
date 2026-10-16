@@ -7,7 +7,7 @@
     "repository_checkout": "Repository checkout",
     "branch": "feat/member-4/m3",
     "commit": "4a8646bc7ea61e4d5bb05f35413bf849e83dabfe",
-    "working_tree_note": "The PDF export is untracked in this checkout; tested application source files were read from this checkout.",
+    "working_tree_note": "The PDF artifact is included in this evidence pull request; tested application source files were read from the source commit noted above.",
     "main_merge_commit": "8d495833d58e5d6c24efaefd3e11752901b63616",
     "main_relation": "The tested source commit is the second parent of the current main merge commit for PR #18."
   },
