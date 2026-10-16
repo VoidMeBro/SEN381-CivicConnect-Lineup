@@ -1,0 +1,19 @@
+# Local credentials and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.sqlite3
+*.db
+data/
+docs/member1_m2/.test-tmp/
+__pycache__/
+
+# Office temporary files
+~$*
+*.tmp
+
+# OS metadata
+.DS_Store
+Thumbs.db
