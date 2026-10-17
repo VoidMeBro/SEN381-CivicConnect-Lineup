@@ -17,7 +17,7 @@ The ZIP is a preserved M2 reference. The M3 web application is in `docs/member1_
 
 ## M3 school-project release status
 
-All four team members confirmed that the integrated application and its planned M3 requirements, tests, checks and supporting evidence were tested, checked and verified, and completed the required approvals on 16 October 2026. The application is ready for the local SEN381 school-project release and demonstration. The identified application revision is `main` commit `8751bdfabc4535a1aeb060e34d9fe2f5ce1d8659`; its GitHub Actions quality run passed. The separate Member 4 staging scripts cover a lifecycle-service slice; use the M3 application instructions below to run the integrated app.
+The project team confirmed that the integrated application and its planned M3 requirements, tests, checks and supporting evidence were tested, checked and verified, and completed the required approvals on 16 October 2026. The application is ready for the local SEN381 school-project release and demonstration. The identified application revision is `main` commit `8751bdfabc4535a1aeb060e34d9fe2f5ce1d8659`; its GitHub Actions quality run passed. The separate staging scripts cover a lifecycle-service slice; use the M3 application instructions below to run the integrated app.
 
 ## Run the M3 application locally
 
@@ -85,8 +85,12 @@ To inspect or run the preserved M2 pack, download and extract `CivicConnect_Team
 - [M3 requirement matrix](docs/member1_m2/evidence/requirement-matrix.csv)
 - [M3 staging notes](docs/member1_m2/evidence/simulated-staging.md)
 - [M3 release evidence summary](docs/member1_m2/evidence/release-evidence-summary.md)
-- [M3 Member 4 release evidence summary](Release_Evidence_Summary.md)
+- [M3 release evidence summary](Release_Evidence_Summary.md)
 - [M3 AI usage register](registers/AI_Usage_Register.md)
 - [M2 project engineering document](CivicConnect_PED_v2.0.docx)
 - [M3 project engineering document](CivicConnect_PED_v3.0.docx)
 - [M2 engineering pack](CivicConnect_Team_PED_Pack.zip)
+
+## M4 final project closure
+
+The final closure package is in [`docs/m4_final/`](docs/m4_final/). It includes PED v4.0 Final, a 20-entry final RTM, the scope calculation, the evidence-based production no-go decision and the team demonstration presentation. The assessed application/evidence baseline is `c8fcc9887d58bc07e7b592e292dbe05222d97190`. The integrated website load profile failed the NFR-03 request failure-rate limit; production readiness is not claimed.

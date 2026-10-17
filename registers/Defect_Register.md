@@ -9,3 +9,11 @@
 | DEF-003 | A list used as a request reference or assignee raised a raw SQLite programming error in three malformed-input cases. | Low | Separate three-file lifecycle-slice probe | Retained as a finding about that slice. The integrated M3 web form accepts text inputs and its current web-security tests passed; the slice result is not reported as an M3 web defect. | `evidence/robustness_probe.json` |
 
 The integrated M3 local test record reports 37 passed, 0 failed and 0 errors. The shared GitHub Actions workflow also passed on main commit `8751bdfabc4535a1aeb060e34d9fe2f5ce1d8659` in run [38870644636](https://github.com/VoidMeBro/SEN381-CivicConnect-Lineup/actions/runs/38870644636). Those results apply to their recorded checks and do not claim that untested behavior is defect-free.
+
+## M4 finding - 17 October 2026
+
+| ID | Finding | Severity / impact | Scope | Status | Evidence / disposition |
+|---|---|---|---|---|---|
+| DEF-004 | Integrated CivicConnect website returned connection resets during synchronized 50-user load. 647 of 6,000 measured requests failed (10.78333%); M1 NFR-03 limit is below 1%. | M4 production release blocker; p95 latency passed at 1,051.639 ms. | Integrated local website, 10,000 synthetic requests, 50 authenticated users, loopback HTTP. | Open; production no-go. Root cause not confirmed. | `evidence/website-stage-20261016/staging_load_report.json`, `staging_load_report.md`, `load_samples.csv`. Re-run after a corrective change against the same criteria. |
+
+This finding supersedes any broad M3 readiness statement for production readiness. The M3 local academic demonstration approval remains historical and scoped to local use.

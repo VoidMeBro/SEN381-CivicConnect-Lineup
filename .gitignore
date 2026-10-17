@@ -17,3 +17,4 @@ __pycache__/
 # OS metadata
 .DS_Store
 Thumbs.db
+.codex/m4_build/
