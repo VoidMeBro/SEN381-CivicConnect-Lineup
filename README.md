@@ -93,4 +93,4 @@ To inspect or run the preserved M2 pack, download and extract `CivicConnect_Team
 
 ## M4 final project closure
 
-The final closure package is in [`docs/m4_final/`](docs/m4_final/). It includes PED v4.0 Final, a 20-entry final RTM, the scope calculation, the evidence-based production no-go decision and the team demonstration presentation. The assessed application/evidence baseline is `c8fcc9887d58bc07e7b592e292dbe05222d97190`. The integrated website load profile failed the NFR-03 request failure-rate limit; production readiness is not claimed.
+The final closure package is in [`docs/m4_final/`](docs/m4_final/). It includes PED v4.0 Final, a 20-entry final RTM, the scope calculation, the evidence-based production no-go decision and the team demonstration presentation. The assessed application/evidence baseline is `c8fcc9887d58bc07e7b592e292dbe05222d97190`. The integrated website load profile failed the NFR-03 request failure-rate limit; production readiness is not claimed. The M4 documentation branch has been published; its pull request and repository review status are tracked separately from the team’s document approval.

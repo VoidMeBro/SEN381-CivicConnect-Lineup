@@ -20,4 +20,4 @@ This package closes the approved CivicConnect project against the signed-off M1 
 
 ## Submission review
 
-The project team completed and approved the collective M4 document and evidence review on 17 October 2026. The team checked and verified the status, release decision, calculations, evidence references and final artifacts. The final documentation pull request must still be published, receive the required non-author GitHub reviews and merge before the exact documentation merge SHA is recorded. Team approval of this package is not a substitute for that repository control.
+The project team completed and approved the collective M4 document and evidence review on 17 October 2026. The team checked and verified the status, release decision, calculations, evidence references and final artifacts. The documentation branch has been published. The pull request must receive the required non-author GitHub reviews and merge before the exact documentation merge SHA is recorded. Team approval of this package is separate from that repository control.
