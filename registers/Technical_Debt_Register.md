@@ -12,7 +12,17 @@
 | TD-005 | SQLite uses a single local database file and serializes writes. | Lifecycle implementation and local performance evidence. | Reassess only if a larger deployment or concurrent-write requirement is introduced. | Low | Accepted for local scope |
 | TD-006 | Operational logging and monitoring are limited. | The school-project build is run locally; no monitoring service is configured. | Add operational monitoring only if the project scope later includes hosted operation. | Low | Accepted for local scope |
 | TD-007 | Environment configuration is supplied through process variables. | `.env.example` documents variable names; `serve.py` reads environment variables and does not auto-load `.env`. | Follow the README and supply secrets locally; do not commit them. | Low | Addressed/documented |
-| TD-008 | Local test history includes more than one Python version. | Member 2 recorded a Python 3.15.0 local run; GitHub Actions passed on the configured Python 3.12 runtime. | Use Python 3.12 for the documented baseline and repeat CI when code changes. | Low | Recorded |
+| TD-008 | Local test history includes more than one Python version. | The retained local test record uses Python 3.15.0; GitHub Actions passed on the configured Python 3.12 runtime. | Use Python 3.12 for the documented baseline and repeat CI when code changes. | Low | Recorded |
 | TD-009 | Lifecycle history has no pagination. | Current local datasets and project demonstration do not require paging. | Add paging if larger datasets or a network API become part of scope. | Low | Accepted for local scope |
 | TD-010 | PED and supporting requirement evidence are maintained as versioned documents. | PED v3.0 and the M3 evidence files are included in this documentation change. | Review the linked evidence whenever implementation or scope changes. | Low | Addressed for M3 package |
-| TD-011 | The Member 4 staging harness simulates a local host and tests the lifecycle-service slice. | `staging/README_Staging.md` and the historical JSON reports state this boundary. | No follow-up is needed for a local school demonstration; use the integrated app README for the actual M3 run. | Low | Accepted for local scope |
+| TD-011 | The staging harness simulates a local host and tests the lifecycle-service slice. | `staging/README_Staging.md` and the historical JSON reports state this boundary. | No follow-up is needed for a local school demonstration; use the integrated app README for the actual M3 run. | Low | Accepted for local scope |
+
+## M4 closure update - 17 October 2026
+
+| ID | Debt or limitation | Evidence / current state | Follow-up | Priority | Status |
+|---|---|---|---|---|---|
+| TD-012 | Local single-process WSGI serving configuration did not meet the synchronized 50-user reliability gate. | 647 of 6,000 website requests failed (10.78333%); p95 was 1,051.639 ms. Root cause remains unconfirmed. | Diagnose connection resets, select an appropriate serving configuration if needed, then repeat the exact profile and acceptance thresholds. | High for release readiness | Open; production blocker |
+| TD-013 | First-time user experience has no measured usability study. | M1 NFR-01 asks for five first-time representative users, with at least four completing within five minutes without help. The team deferred the study while prioritising the load-reliability issue; insufficient time remained before M4 closure. The team reviewed and verified this explanation and the unmet status. | Run the defined study or formally change the approved baseline. | High for acceptance closure | Open; Must Have unmet |
+| TD-014 | Availability evidence for hosted use is absent. | No 20-weekday, one-minute business-hours probe evidence. | Collect evidence if a hosted release enters scope. | Medium | Open; production evidence absent |
+
+M4 production decision: NO-GO. A local academic demonstration may use synthetic data but does not close these items.

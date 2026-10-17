@@ -1,0 +1,22 @@
+﻿Requirement ID,M1 Priority,Acceptance Status,Completion Value,Reason / Evidence,Assessed Baseline
+FR-01,Must Have,MET,1,docs/member1_m2/tests/test_features.py; docs/member1_m2/tests/test_web_security.py; docs/member1_m2/evidence/member2-test-results.txt; docs/member1_m2/evidence/team-release-verification.md,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-02,Must Have,MET,1,docs/member1_m2/tests/test_blackbox.py; docs/member1_m2/tests/test_web_security.py; docs/member1_m2/tests/test_e2e.py,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-03,Must Have,MET,1,docs/member1_m2/tests/test_e2e.py; docs/member1_m2/tests/test_web_security.py; evidence/website-stage-20261016 staging checks,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-04,Must Have,MET,1,docs/member1_m2/tests/test_features.py; docs/member1_m2/tests/test_web_security.py; team-reviewed local workflow evidence,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-05,Must Have,MET,1,docs/member1_m2/tests/test_component.py; docs/member1_m2/tests/test_integration.py; docs/member1_m2/tests/test_e2e.py,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-06,Must Have,MET,1,docs/member1_m2/tests/test_features.py; docs/member1_m2/tests/test_web_security.py,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-07,Must Have,MET,1,docs/member1_m2/tests/test_blackbox.py; docs/member1_m2/tests/test_web_security.py,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-08,Must Have,MET,1,docs/member1_m2/tests/test_e2e.py; docs/member1_m2/tests/test_web_security.py; evidence/website-stage-20261016 submission/detail flow,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-09,Must Have,MET,1,docs/member1_m2/tests/test_features.py; docs/member1_m2/tests/test_integration.py; docs/member1_m2/tests/test_e2e.py,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-10,Must Have,MET,1,docs/member1_m2/tests/test_blackbox.py; docs/member1_m2/tests/test_features.py,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-11,Must Have,MET,1,docs/member1_m2/tests/test_features.py; docs/member1_m2/tests/test_integration.py; docs/member1_m2/evidence/test-strategy.md,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-12,Must Have,MET,1,docs/member1_m2/tests/test_integration.py; docs/member1_m2/tests/test_component.py; docs/member1_m2/evidence/test-strategy.md,c8fcc9887d58bc07e7b592e292dbe05222d97190
+FR-13,Must Have,MET,1,docs/member1_m2/tests/test_component.py; docs/member1_m2/tests/test_integration.py; docs/member1_m2/tests/test_e2e.py,c8fcc9887d58bc07e7b592e292dbe05222d97190
+NFR-01,Must Have,NOT MET,0,The five-person study was deferred while the team prioritised the load-reliability issue; insufficient time remained before M4 closure. The team reviewed and verified this reason and status. Must Have remains unmet.,c8fcc9887d58bc07e7b592e292dbe05222d97190
+NFR-02,Must Have,MET,1,docs/member1_m2/tests/test_web_security.py; cross-citizen denial in evidence/website-stage-20261016; CI workflow 38870644636 on code baseline,c8fcc9887d58bc07e7b592e292dbe05222d97190
+NFR-03,Should Have,PARTIALLY MET,0.5,"evidence/evidence/website-stage-20261016/staging_load_report.json and .md: 6000 samples, p95 1051.639 ms meets 3000 ms, 647 failures (10.78333%) exceed <1% limit.",c8fcc9887d58bc07e7b592e292dbe05222d97190
+NFR-04,Should Have,NOT MET,0,"No 20-weekday one-minute business-hours availability probe. Hosted availability outside M3 local-demo scope, but M1 acceptance criterion remains unmet.",c8fcc9887d58bc07e7b592e292dbe05222d97190
+NFR-05,Should Have,PARTIALLY MET,0.5,docs/member1_m2/tests/test_blackbox.py and test_features.py cover boundary/category cases; the required 100-record audit remains incomplete.,c8fcc9887d58bc07e7b592e292dbe05222d97190
+NFR-06,Should Have,PARTIALLY MET,0.5,"Requirement, test and evidence links exist, but uniform source-to-acceptance-to-design-to-test-to-outcome traceability is incomplete across the baseline.",c8fcc9887d58bc07e7b592e292dbe05222d97190
+NFR-07,Could Have,PARTIALLY MET,0.5,docs/member1_m2/product/performance_smoke.py exercises 10001 records and 50 one-time lookups; no 50000-record/100-user scenario found.,c8fcc9887d58bc07e7b592e292dbe05222d97190
+TOTAL,,,16.0,16.0 points / 20 signed-off M1 requirement rows = 80.0%. One complete acceptance-criteria entry per approved requirement row is scored once; compound clauses are assessed together.,c8fcc9887d58bc07e7b592e292dbe05222d97190
