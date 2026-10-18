@@ -8,7 +8,8 @@ This package closes the approved CivicConnect project against the signed-off M1 
 - `Final_RTM.csv`: full M1 requirement criteria, final statuses, evidence and limitations.
 - `Scope_Completion.csv`: scoring worksheet and calculation.
 - `Final_Release_Decision.md`: production decision and conditions for reconsideration.
-- `CivicConnect_Final_Demonstration.pptx`: team presentation with speaker notes and evidence references.
+- `CivicConnect_Final_Demonstration_Sections_12_13_v2.pptx`: revised 12-slide team deck aligned to SEN381 FINAL Sections 12 and 13, with speaker notes and evidence references.
+- `CivicConnect_Final_Demonstration_Script_Sections_12_13_v2.md`: matching four-speaker video script and opening product demonstration cue.
 - `Speaker_Guide.md`: timing, user journey and individual defence preparation.
 
 ## Baselines
